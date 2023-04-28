@@ -4,6 +4,7 @@ export default class Header {
         public title = "Miryth",
         public logo = "logo.png",
         public nav = "nav.md",
+        public exclude: string[] = [],
         public allowHtml = false,
         public allowJs = false
     ) {

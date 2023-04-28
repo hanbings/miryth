@@ -1,0 +1,22 @@
+# src source file
+src/
+build/
+
+# idea file
+.idea/
+
+# github action config
+.github/
+
+# gulp build script
+gulpfile.js
+
+# config
+postcss.config.js
+tailwind.config.js
+
+# demo page
+index.html
+
+# git ignore
+.gitignore

@@ -4,6 +4,7 @@ export default class Footer {
         public cnIcp = "",
         public moeIcp = "",
         public content = "",
+        public exclude: string[] = [],
         public allowHtml = false,
         public allowJs = false
     ) {
