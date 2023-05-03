@@ -32,10 +32,9 @@ gulp.task('css', () => {
 
 // 编译 ts
 gulp.task("typescript", () => {
-    return gulp.src("./src/**/*.ts")
-        .pipe(ts({
-            noImplicitAny: true
-        }))
+    let sources = ts.createProject('tsconfig.json');
+    return sources.src()
+        .pipe(sources())
         .js
         .pipe(gulp.dest('./build'));
 });
@@ -48,17 +47,24 @@ gulp.task('javascript', () => {
         .pipe(gulp.dest('.'));
 });
 
+gulp.task('dev', () => {
+    return gulp.src('./build/**/*.js')
+        .pipe(concat('miryth.dev.js'))
+        .pipe(gulp.dest('.'));
+});
+
 gulp.task('clean', done => {
-    if (fs.existsSync('./build')) fs.rmSync('./build', { recursive: true });
+    if (fs.existsSync('./build')) fs.rmSync('./build', {recursive: true});
     if (fs.existsSync('./miryth.min.css')) fs.unlinkSync('./miryth.min.css');
     if (fs.existsSync('./miryth.min.js')) fs.unlinkSync('./miryth.min.js');
+    if (fs.existsSync('./miryth.dev.js')) fs.unlinkSync('./miryth.dev.js');
     done();
 });
 
 gulp.task('after', done => {
-    if (fs.existsSync('./build')) fs.rmSync('./build', { recursive: true });
+    if (fs.existsSync('./build')) fs.rmSync('./build', {recursive: true});
     done();
 });
 
 // 先编译 css 然后压缩 js / ts 和 css 最后打包成单个文件
-gulp.task('build', gulp.series('clean', 'css', 'typescript', 'javascript', 'after'));
+gulp.task('build', gulp.series('clean', 'css', 'typescript', 'javascript', 'dev', 'after'));
