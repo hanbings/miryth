@@ -131,9 +131,3 @@ dist
 
 # Jetbrains IDE dir
 .idea/
-
-# target file
-index.html
-miryth.min.css
-miryth.dev.js
-miryth.min.js

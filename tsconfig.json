@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "sourceMap": true,
-    "outDir": "build"
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "module": "ESNext",
+    "allowJs": false
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*"
   ]
 }

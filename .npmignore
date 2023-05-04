@@ -8,12 +8,9 @@ build/
 # github action config
 .github/
 
-# gulp build script
-gulpfile.js
-
 # config
-postcss.config.js
-tailwind.config.js
+rollup.config.js
+tsconfig.json
 
 # demo page
 index.html

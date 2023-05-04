@@ -1,5 +1,3 @@
-import Router from "./router";
-
 export default class HashRouter implements Router {
     init(): void {
     }

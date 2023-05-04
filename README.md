@@ -5,8 +5,7 @@
 1. Clone 本项目 `git clone https://github.com/hanbings/miryth.git`
 2. 安装依赖 `npm install`
 3. 编译 `npm run build`
-4. 获得 `miryth.min.js` 和 `miryth.min.css` 
-
+4. 获得 `miryth.min.js` 和 `miryth.min.css`
 
 ## 🍀 关于开源
 

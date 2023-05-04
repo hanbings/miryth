@@ -1,4 +1,4 @@
-export default interface Router {
+interface Router {
     init(): void;
 
     parse(path: string): string[];
