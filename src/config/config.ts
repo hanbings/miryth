@@ -10,6 +10,8 @@ export default class Config {
         // markdown 目录
         public docs?: string[],
         public router?: string,
+        // 全屏
+        public fullscreen?: boolean,
         // 页面配置
         // 默认页面
         public override?: Template,
@@ -26,7 +28,8 @@ export default class Config {
         // 网页底部
         public footer?: Footer,
         // 侧边栏
-        public sidebar?: Sidebar
+        public left?: Sidebar,
+        public right?: Sidebar
     ) {
         this.color = "#feba06";
         this.docs = ["./docs"];
@@ -38,7 +41,8 @@ export default class Config {
         this.notfound = new Template();
         this.header = new Header();
         this.footer = new Footer();
-        this.sidebar = new Sidebar();
+        this.left = new Sidebar.Left();
+        this.right = new Sidebar.Right();
 
         this.override.path = ["override.md"];
         this.home.path = ["README.md"];

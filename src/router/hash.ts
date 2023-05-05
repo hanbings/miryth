@@ -2,9 +2,6 @@ import Route from "./route";
 import Router from "./router";
 
 export default class HashRouter implements Router {
-    init(): void {
-    }
-
     public parse(path: string): Route {
         return new Route(
             path.split("?")[0],
