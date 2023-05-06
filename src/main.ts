@@ -28,6 +28,11 @@ class Miryth {
             // 清除默认样式
             body.style.margin = "0";
             body.style.padding = "0";
+
+            // 撑开页面
+            document.documentElement.style.height = "100%";
+            // body.style.height = "100%";
+            body.style.position = "relative";
         }
 
         // 创建路由
@@ -55,10 +60,13 @@ class Miryth {
         container.appendChild(content);
         container.appendChild(right);
 
-        // 挂载进页面
+        // 挂载进页面[图片]
         body.appendChild(header);
         body.appendChild(container);
         body.appendChild(footer);
+
+        // 修复大小[图片]
+        footer.style.marginTop = `${window.innerHeight - body.clientHeight - footer.clientHeight - 20}px`;
 
         console.log(route);
     }

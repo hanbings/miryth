@@ -10,7 +10,7 @@ export default class Render {
         let element = document.createElement("div");
 
         element.style.width = "100%";
-        element.style.height = "5%";
+        element.style.height = "68px";
         element.style.position = "fixed";
         element.style.top = "0";
         element.style.left = "0";
@@ -49,6 +49,17 @@ export default class Render {
 
     public static renderFooter(footer: Footer, route: Route): HTMLDivElement {
         let element = document.createElement("div");
+
+        element.style.bottom = "0";
+        element.style.height = "48px";
+        // 居中
+        element.style.width = "100%";
+        element.style.display = "flex";
+        element.style.justifyContent = "center";
+        element.style.alignItems = "center";
+
+        element.innerHTML = "萌ICP备 00000000号";
+
         return element;
     }
 }

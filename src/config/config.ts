@@ -1,7 +1,7 @@
 import {Template} from "./template";
 import {Header} from "./header";
 import {Footer} from "./footer";
-import {Sidebar} from "./sidebar";
+import {LeftSidebar, RightSidebar, Sidebar} from "./sidebar";
 
 export default class Config {
     constructor(
@@ -41,8 +41,8 @@ export default class Config {
         this.notfound = new Template();
         this.header = new Header();
         this.footer = new Footer();
-        this.left = new Sidebar.Left();
-        this.right = new Sidebar.Right();
+        this.left = new LeftSidebar();
+        this.right = new RightSidebar();
 
         this.override.path = ["override.md"];
         this.home.path = ["README.md"];
