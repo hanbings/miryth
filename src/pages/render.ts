@@ -1,13 +1,19 @@
 import {marked} from "marked";
 import {Header} from "../config/header";
-import {Sidebar} from "../config/sidebar";
+import {LeftSidebar, RightSidebar, Sidebar} from "../config/sidebar";
 import {Template} from "../config/template";
 import {Footer} from "../config/footer";
 import Route from "../router/route";
+import {HookEndpoint, Hooking, HookType} from "../main";
 
 export default class Render {
     public static renderHeader(header: Header, route: Route): HTMLDivElement {
         let element = document.createElement("div");
+
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.HEADER).forEach((hook) => {
+            if (hook.type == HookType.BEFORE) hook.callback(element);
+        });
 
         element.style.width = "100%";
         element.style.height = "68px";
@@ -22,16 +28,51 @@ export default class Render {
         element.style.alignItems = "center";
         element.innerText = header.title;
 
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.HEADER).forEach((hook) => {
+            if (hook.type == HookType.AFTER) hook.callback(element);
+        });
+
         return element;
     }
 
     public static renderSidebar(sidebar: Sidebar, route: Route): HTMLDivElement {
         let element = document.createElement("div");
+
+        if (sidebar instanceof LeftSidebar) {
+            // api 调用
+            Hooking.hooks.get(HookEndpoint.LEFT).forEach((hook) => {
+                if (hook.type == HookType.BEFORE) hook.callback(element);
+            });
+
+            // api 调用
+            Hooking.hooks.get(HookEndpoint.LEFT).forEach((hook) => {
+                if (hook.type == HookType.AFTER) hook.callback(element);
+            });
+        }
+
+        if (sidebar instanceof RightSidebar) {
+            // api 调用
+            Hooking.hooks.get(HookEndpoint.RIGHT).forEach((hook) => {
+                if (hook.type == HookType.BEFORE) hook.callback(element);
+            });
+
+            // api 调用
+            Hooking.hooks.get(HookEndpoint.RIGHT).forEach((hook) => {
+                if (hook.type == HookType.AFTER) hook.callback(element);
+            });
+        }
+
         return element;
     }
 
     public static renderContent(template: Template, route: Route): HTMLDivElement {
         let element = document.createElement("div");
+
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.CONTENT).forEach((hook) => {
+            if (hook.type == HookType.BEFORE) hook.callback(element);
+        });
 
         // 获取 markdown 文件
         let xhr = new XMLHttpRequest();
@@ -44,21 +85,40 @@ export default class Render {
         // 处理样式
         element.style.width = "60%";
 
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.CONTENT).forEach((hook) => {
+            if (hook.type == HookType.AFTER) hook.callback(element);
+        });
+
         return element;
     }
 
     public static renderFooter(footer: Footer, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.FOOTER).forEach((hook) => {
+            if (hook.type == HookType.BEFORE) hook.callback(element);
+        });
+
         element.style.bottom = "0";
-        element.style.height = "48px";
+        element.style.height = "68px";
         // 居中
         element.style.width = "100%";
         element.style.display = "flex";
+        element.style.flexDirection = "column";
         element.style.justifyContent = "center";
         element.style.alignItems = "center";
 
-        element.innerHTML = "萌ICP备 00000000号";
+        element.innerHTML = `
+            <h4 style="margin: 0px; padding: 0px;">萌ICP备 00000000号</h4>
+            <h4 style="margin: 0px; padding: 0px;">Powered by ⭐ Miryth</h4>
+         `;
+
+        // api 调用
+        Hooking.hooks.get(HookEndpoint.FOOTER).forEach((hook) => {
+            if (hook.type == HookType.AFTER) hook.callback(element);
+        });
 
         return element;
     }
