@@ -4,14 +4,14 @@ import {LeftSidebar, RightSidebar, Sidebar} from "../config/sidebar";
 import {Template} from "../config/template";
 import {Footer} from "../config/footer";
 import Route from "../router/route";
-import {HookEndpoint, Hooking, HookType} from "../main";
+import {HookEndpoint, Hooking, HookType} from "../api/hook";
 
 export default class Render {
     public static renderHeader(header: Header, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.HEADER).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.HEADER)?.forEach((hook) => {
             if (hook.type == HookType.BEFORE) hook.callback(element);
         });
 
@@ -29,7 +29,7 @@ export default class Render {
         element.innerText = header.title;
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.HEADER).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.HEADER)?.forEach((hook) => {
             if (hook.type == HookType.AFTER) hook.callback(element);
         });
 
@@ -41,24 +41,24 @@ export default class Render {
 
         if (sidebar instanceof LeftSidebar) {
             // api 调用
-            Hooking.hooks.get(HookEndpoint.LEFT).forEach((hook) => {
+            Hooking.hooks.get(HookEndpoint.LEFT)?.forEach((hook) => {
                 if (hook.type == HookType.BEFORE) hook.callback(element);
             });
 
             // api 调用
-            Hooking.hooks.get(HookEndpoint.LEFT).forEach((hook) => {
+            Hooking.hooks.get(HookEndpoint.LEFT)?.forEach((hook) => {
                 if (hook.type == HookType.AFTER) hook.callback(element);
             });
         }
 
         if (sidebar instanceof RightSidebar) {
             // api 调用
-            Hooking.hooks.get(HookEndpoint.RIGHT).forEach((hook) => {
+            Hooking.hooks.get(HookEndpoint.RIGHT)?.forEach((hook) => {
                 if (hook.type == HookType.BEFORE) hook.callback(element);
             });
 
             // api 调用
-            Hooking.hooks.get(HookEndpoint.RIGHT).forEach((hook) => {
+            Hooking.hooks.get(HookEndpoint.RIGHT)?.forEach((hook) => {
                 if (hook.type == HookType.AFTER) hook.callback(element);
             });
         }
@@ -70,7 +70,7 @@ export default class Render {
         let element = document.createElement("div");
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.CONTENT).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.CONTENT)?.forEach((hook) => {
             if (hook.type == HookType.BEFORE) hook.callback(element);
         });
 
@@ -86,7 +86,7 @@ export default class Render {
         element.style.width = "60%";
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.CONTENT).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.CONTENT)?.forEach((hook) => {
             if (hook.type == HookType.AFTER) hook.callback(element);
         });
 
@@ -97,7 +97,7 @@ export default class Render {
         let element = document.createElement("div");
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.FOOTER).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.FOOTER)?.forEach((hook) => {
             if (hook.type == HookType.BEFORE) hook.callback(element);
         });
 
@@ -111,12 +111,12 @@ export default class Render {
         element.style.alignItems = "center";
 
         element.innerHTML = `
-            <h4 style="margin: 0px; padding: 0px;">萌ICP备 00000000号</h4>
-            <h4 style="margin: 0px; padding: 0px;">Powered by ⭐ Miryth</h4>
+            <h4 style="margin: 0; padding: 0;">萌ICP备 00000000 号</h4>
+            <h4 style="margin: 0; padding: 0;">Powered by ⭐ Miryth</h4>
          `;
 
         // api 调用
-        Hooking.hooks.get(HookEndpoint.FOOTER).forEach((hook) => {
+        Hooking.hooks.get(HookEndpoint.FOOTER)?.forEach((hook) => {
             if (hook.type == HookType.AFTER) hook.callback(element);
         });
 

@@ -3,6 +3,7 @@ import Config from "./config/config";
 import Router from "./router/router";
 import Route from "./router/route";
 import Render from "./pages/render";
+import {HookEndpoint, Hooking, HookType} from "./api/hook";
 
 const logo =
     "        .__                 __  .__            \n" +
@@ -90,29 +91,5 @@ class Miryth {
     }
 }
 
-export class Hooking {
-    static hooks: Map<HookEndpoint, Set<Hooking>> = new Map<HookEndpoint, Set<Hooking>>();
-
-    constructor(
-        public endpoint: HookEndpoint,
-        public type: HookType,
-        public callback: (element: HTMLElement) => void
-    ) {
-    }
-}
-
-export enum HookEndpoint {
-    HEADER,
-    FOOTER,
-    LEFT,
-    CONTENT,
-    RIGHT,
-    CONTAINER
-}
-
-export enum HookType {
-    BEFORE,
-    AFTER
-}
 
 Miryth.init();
