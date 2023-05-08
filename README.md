@@ -3,9 +3,14 @@
 ## ⭐ 开始吧！
 
 1. Clone 本项目 `git clone https://github.com/hanbings/miryth.git`
+
 2. 安装依赖 `npm install`
+
 3. 编译 `npm run build`
+
 4. 获得 `miryth.js` 并在 html 页面中创建 body 元素后导入它
+
+   ![Miryth](https://i.328888.xyz/2023/05/08/i1a1U5.png)
 
 ## 🍀 关于开源
 
