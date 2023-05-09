@@ -1,12 +1,8 @@
 export class Sidebar {
     constructor(
-        public enable?: boolean,
-        public allowHtml?: boolean,
-        public allowJs?: boolean
+        public enable?: boolean
     ) {
         this.enable = false;
-        this.allowHtml = true;
-        this.allowJs = true;
     }
 }
 

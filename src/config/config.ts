@@ -11,7 +11,7 @@ export default class Config {
         public docs?: string[],
         public router?: string,
         // 全屏
-        public fullscreen?: boolean,
+        public fullScreen?: boolean,
         // 页面配置
         // 默认页面
         public override?: Template,

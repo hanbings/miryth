@@ -4,16 +4,12 @@ export class Header {
         public title?: string,
         public logo?: string,
         public nav?: string,
-        public exclude?: string[],
-        public allowHtml?: boolean,
-        public allowJs?: boolean
+        public exclude?: string[]
     ) {
         this.enable = true;
         this.title = "Miryth";
         this.logo = "logo.png";
         this.nav = "nav.md";
         this.exclude = [];
-        this.allowHtml = false;
-        this.allowJs = false;
     }
 }

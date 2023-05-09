@@ -25,9 +25,17 @@ class Miryth {
             let config: Config = new Config();
             let body: HTMLElement = document.body;
 
+            for (let key in global) {
+                if (typeof global[key] == "object") {
+                    for (let k in global[key]) {
+                        config[key][k] = global[key][k];
+                    }
+                }
+            }
+
+
             // 调整全屏样式
-            // @ts-ignore
-            if (global.fullScreen == undefined || global.fullScreen) {
+            if (config.fullScreen) {
                 // 清除默认样式
                 body.style.margin = "0";
                 body.style.padding = "0";

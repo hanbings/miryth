@@ -110,10 +110,12 @@ export default class Render {
         element.style.justifyContent = "center";
         element.style.alignItems = "center";
 
-        element.innerHTML = `
-            <h4 style="margin: 0; padding: 0;">萌ICP备 00000000 号</h4>
-            <h4 style="margin: 0; padding: 0;">Powered by ⭐ Miryth</h4>
-         `;
+        let content = ``;
+        if (footer.cnIcp) content += `<p style="margin: 0; padding: 0;">${footer.cnIcp}</p>`;
+        if (footer.moeIcp) content += `<p style="margin: 0; padding: 0;">${footer.moeIcp}</p>`;
+        content += footer.content;
+
+        element.innerHTML = content;
 
         // api 调用
         Hooking.hooks.get(HookEndpoint.FOOTER)?.forEach((hook) => {
