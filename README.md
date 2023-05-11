@@ -12,6 +12,31 @@
 
    ![Miryth](https://i.328888.xyz/2023/05/08/i1a1U5.png)
 
+## 😶‍🌫️ 试试！
+
+1. 创建 `index.html` 文件
+
+2. 导入编译得到的 `miryth.js`
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+       <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Document</title>
+   </head>
+   
+   <body></body>
+   <script src="./miryth.js"></script>
+   
+   </html>
+   ```
+
+3. 创建 `index.json` 作为目录索引
+
 ## 🍀 关于开源
 
 开源是一种精神。
