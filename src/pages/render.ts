@@ -5,9 +5,10 @@ import {Template} from "../config/template";
 import {Footer} from "../config/footer";
 import Route from "../router/route";
 import {HookEndpoint, Hooking, HookType} from "../api/hook";
+import Config from "../config/config";
 
 export default class Render {
-    public static renderHeader(header: Header, route: Route): HTMLDivElement {
+    public static renderHeader(config: Config, header: Header, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
         // api 调用
@@ -36,7 +37,7 @@ export default class Render {
         return element;
     }
 
-    public static renderSidebar(sidebar: Sidebar, route: Route): HTMLDivElement {
+    public static renderSidebar(config: Config, sidebar: Sidebar, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
         if (sidebar instanceof LeftSidebar) {
@@ -66,7 +67,7 @@ export default class Render {
         return element;
     }
 
-    public static renderContent(template: Template, route: Route): HTMLDivElement {
+    public static renderContent(config: Config, template: Template, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
         // api 调用
@@ -74,13 +75,29 @@ export default class Render {
             if (hook.type == HookType.BEFORE) hook.callback(element);
         });
 
-        // 获取 markdown 文件
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', `/${template.path[0]}`, false);
-        xhr.onload = function () {
-            element.innerHTML = marked(xhr.responseText);
-        };
-        xhr.send();
+        // 获取文档
+        if (route.paths.length == 0 || route.paths[0] == "/") {
+            // 获取 index.json 文件
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `/index.json`, false);
+            xhr.onload = function () {
+                let index = JSON.parse(xhr.responseText);
+                let html = ``;
+
+                element.innerHTML = html;
+            }
+            xhr.send();
+        }
+
+        if (route.paths.length > 1) {
+            // 获取 markdown 文件
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `/${template.path[0]}`, false);
+            xhr.onload = function () {
+                element.innerHTML = marked(xhr.responseText);
+            };
+            xhr.send();
+        }
 
         // 处理样式
         element.style.width = "60%";
@@ -93,7 +110,7 @@ export default class Render {
         return element;
     }
 
-    public static renderFooter(footer: Footer, route: Route): HTMLDivElement {
+    public static renderFooter(config: Config, footer: Footer, route: Route): HTMLDivElement {
         let element = document.createElement("div");
 
         // api 调用

@@ -32,7 +32,7 @@ export default class Config {
         public right?: Sidebar
     ) {
         this.color = "#feba06";
-        this.docs = ["./docs"];
+        this.docs = ["docs"];
         this.router = "hash";
         this.override = new Template();
         this.home = new Template();

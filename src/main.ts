@@ -56,12 +56,12 @@ class Miryth {
             });
 
             // 获取各个部分的页面元素
-            let header: HTMLDivElement = Render.renderHeader(config.header, route);
-            let footer: HTMLDivElement = Render.renderFooter(config.footer, route);
+            let header: HTMLDivElement = Render.renderHeader(config, config.header, route);
+            let footer: HTMLDivElement = Render.renderFooter(config, config.footer, route);
             // 容器
-            let left: HTMLDivElement = Render.renderSidebar(config.left, route);
-            let content: HTMLDivElement = Render.renderContent(config.home, route);
-            let right: HTMLDivElement = Render.renderSidebar(config.right, route);
+            let left: HTMLDivElement = Render.renderSidebar(config, config.left, route);
+            let content: HTMLDivElement = Render.renderContent(config, config.home, route);
+            let right: HTMLDivElement = Render.renderSidebar(config, config.right, route);
 
             // 内容容器
             let container: HTMLDivElement = document.createElement("div");
@@ -91,13 +91,12 @@ class Miryth {
         };
     }
 
-    static hook(endpoint: HookEndpoint, type: HookType, callback: (element: HTMLElement) => void): void {
+    public static hook(endpoint: HookEndpoint, type: HookType, callback: (element: HTMLElement) => void): void {
         Hooking.hooks.set(
             endpoint,
             (Hooking.hooks.get(endpoint) ?? new Set<Hooking>()).add(new Hooking(endpoint, type, callback))
         );
     }
 }
-
 
 Miryth.init();
