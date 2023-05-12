@@ -1,8 +1,10 @@
 export class Sidebar {
     constructor(
-        public enable?: boolean
+        public enable?: boolean,
+        public exclude?: string[]
     ) {
         this.enable = false;
+        this.exclude = ['', '/', 'about', 'tags'];
     }
 }
 

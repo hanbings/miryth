@@ -4,6 +4,7 @@ import Router from "./router/router";
 import Route from "./router/route";
 import Render from "./pages/render";
 import {HookEndpoint, Hooking, HookType} from "./api/hook";
+import Index from "./pages/index";
 
 const logo =
     "        .__                 __  .__            \n" +
@@ -33,22 +34,24 @@ class Miryth {
                 }
             }
 
+            // 清除默认样式
+            body.style.margin = "0";
+            body.style.padding = "0";
 
-            // 调整全屏样式
-            if (config.fullScreen) {
-                // 清除默认样式
-                body.style.margin = "0";
-                body.style.padding = "0";
-
-                // 撑开页面
-                document.documentElement.style.height = "100%";
-                // body.style.height = "100%";
-                body.style.position = "relative";
-            }
+            // 撑开页面
+            document.documentElement.style.height = "100%";
+            body.style.position = "relative";
 
             // 创建路由
             let router: Router = new HashRouter();
             let route: Route = router.parse(window.location.hash.split("#")[1] ?? "");
+
+            // 获取索引文件
+            let index: Array<Index> = new Array<Index>();
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `/index.json`, false);
+            xhr.onload = () => index = Array.from(JSON.parse(xhr.responseText));
+            xhr.send();
 
             // api 调用
             Hooking.hooks.get(HookEndpoint.CONTAINER)?.forEach(hook => {
@@ -56,33 +59,29 @@ class Miryth {
             });
 
             // 获取各个部分的页面元素
-            let header: HTMLDivElement = Render.renderHeader(config, config.header, route);
-            let footer: HTMLDivElement = Render.renderFooter(config, config.footer, route);
+            let header: HTMLDivElement = Render.renderHeader(config, index, route);
+            let footer: HTMLDivElement = Render.renderFooter(config, index, route);
             // 容器
-            let left: HTMLDivElement = Render.renderSidebar(config, config.left, route);
-            let content: HTMLDivElement = Render.renderContent(config, config.home, route);
-            let right: HTMLDivElement = Render.renderSidebar(config, config.right, route);
+            let left: HTMLDivElement = Render.renderLeft(config, index, route);
+            let content: HTMLDivElement = Render.renderContent(config, index, route);
+            let right: HTMLDivElement = Render.renderRight(config, index, route);
 
             // 内容容器
             let container: HTMLDivElement = document.createElement("div");
-            // 处理内容容器与 header 的样式 需要保持一定的距离
-            container.style.marginTop = header.style.height;
             // 剧中
             container.style.display = "flex";
             container.style.justifyContent = "center";
             container.style.alignItems = "center";
+            container.style.height = "100vh";
             // 合并内容
             container.appendChild(left);
             container.appendChild(content);
             container.appendChild(right);
 
-            // 挂载进页面[图片]
+            // 挂载进页面
             body.appendChild(header);
             body.appendChild(container);
             body.appendChild(footer);
-
-            // 修复大小[图片]
-            footer.style.marginTop = `${window.innerHeight - body.clientHeight - footer.clientHeight - 20}px`;
 
             // api 调用
             Hooking.hooks.get(HookEndpoint.CONTAINER)?.forEach(hook => {
