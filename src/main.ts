@@ -1,10 +1,10 @@
 import HashRouter from "./router/hash";
-import Config from "./config/config";
 import Router from "./router/router";
 import Route from "./router/route";
-import Render from "./pages/render";
-import {HookEndpoint, Hooking, HookType} from "./api/hook";
-import Index from "./pages/index";
+import Request from "./utils/request";
+import {Config} from "./config/config";
+import {HookEndpoint, Hooking, HookType} from "./api/hooks";
+import {Render} from "./theme/render";
 
 const logo =
     "        .__                 __  .__            \n" +
@@ -15,8 +15,14 @@ const logo =
     "      \\/           \\/                \\/     \n";
 
 class Miryth {
+    static config: Config;
+    static route: Route;
+
     public static init(): void {
         console.log(logo);
+
+        // 预先渲染好页面
+        new Render();
 
         // 延迟到页面加载完成
         window.onload = function () {
@@ -29,6 +35,13 @@ class Miryth {
             for (let key in global) {
                 if (typeof global[key] == "object") {
                     for (let k in global[key]) {
+                        // 检查配置是否存在
+                        if (config[key] == undefined || config[key][k] == undefined) {
+                            console.warn(`[Miryth] ${key}.${k} is not defined.`);
+                            continue;
+                        }
+
+                        // overwrite config
                         config[key][k] = global[key][k];
                     }
                 }
@@ -40,61 +53,75 @@ class Miryth {
 
             // 撑开页面
             document.documentElement.style.height = "100%";
-            body.style.position = "relative";
+            document.documentElement.style.width = "100%";
 
             // 创建路由
             let router: Router = new HashRouter();
-            let route: Route = router.parse(window.location.hash.split("#")[1] ?? "");
+            Miryth.route = router.parse(window.location.hash.split("#")[1] ?? "");
+
+            // 获取头部导航栏
+            if (config.header.nav == undefined) {
+                new Request("/nav.json").get(
+                    xhr => config.header.nav = Array.from(JSON.parse(xhr.responseText))
+                );
+            }
 
             // 获取索引文件
-            let index: Array<Index> = new Array<Index>();
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', `/index.json`, false);
-            xhr.onload = () => index = Array.from(JSON.parse(xhr.responseText));
-            xhr.send();
+            if (config.content.index == undefined) {
+                new Request("/index.json").get(
+                    xhr => config.content.index = Array.from(JSON.parse(xhr.responseText))
+                );
+            }
 
-            // api 调用
-            Hooking.hooks.get(HookEndpoint.CONTAINER)?.forEach(hook => {
-                if (hook.type == HookType.BEFORE) hook.callback(body);
-            });
+            // 调用 api
+            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOAD, config, body, Miryth.route);
 
-            // 获取各个部分的页面元素
-            let header: HTMLDivElement = Render.renderHeader(config, index, route);
-            let footer: HTMLDivElement = Render.renderFooter(config, index, route);
-            // 容器
-            let left: HTMLDivElement = Render.renderLeft(config, index, route);
-            let content: HTMLDivElement = Render.renderContent(config, index, route);
-            let right: HTMLDivElement = Render.renderRight(config, index, route);
+            // 渲染页面
+            let header: HTMLDivElement = Miryth.element("miryth-header", true, HookEndpoint.HEADER, HookEndpoint.HEADER_LEFT, HookEndpoint.HEADER_CENTER, HookEndpoint.HEADER_RIGHT);
+            let banner: HTMLDivElement = Miryth.element("miryth-banner", false, HookEndpoint.BANNER);
+            let content: HTMLDivElement = Miryth.element("miryth-content", true, HookEndpoint.CONTENT, HookEndpoint.CONTENT_LEFT, HookEndpoint.CONTENT_CENTER, HookEndpoint.CONTENT_RIGHT);
+            let footer: HTMLDivElement = Miryth.element("miryth-footer", true, HookEndpoint.FOOTER, HookEndpoint.FOOTER_LEFT, HookEndpoint.FOOTER_CENTER, HookEndpoint.FOOTER_RIGHT);
 
-            // 内容容器
-            let container: HTMLDivElement = document.createElement("div");
-            // 剧中
-            container.style.display = "flex";
-            container.style.justifyContent = "center";
-            container.style.alignItems = "center";
-            container.style.height = "100vh";
-            // 合并内容
-            container.appendChild(left);
-            container.appendChild(content);
-            container.appendChild(right);
-
-            // 挂载进页面
             body.appendChild(header);
-            body.appendChild(container);
+            body.appendChild(banner);
+            body.appendChild(content);
             body.appendChild(footer);
 
-            // api 调用
-            Hooking.hooks.get(HookEndpoint.CONTAINER)?.forEach(hook => {
-                if (hook.type == HookType.AFTER) hook.callback(body);
-            });
+            // 调用 api
+            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOADED, config, body, Miryth.route);
         };
     }
 
-    public static hook(endpoint: HookEndpoint, type: HookType, callback: (element: HTMLElement) => void): void {
-        Hooking.hooks.set(
-            endpoint,
-            (Hooking.hooks.get(endpoint) ?? new Set<Hooking>()).add(new Hooking(endpoint, type, callback))
-        );
+    private static element(
+        id: string, slice: boolean, endpoint: HookEndpoint,
+        leftSlice?: HookEndpoint, centerSlice?: HookEndpoint, rightSlice?: HookEndpoint
+    ): HTMLDivElement {
+        let element: HTMLDivElement = document.createElement("div");
+        element.id = id;
+        element.style.width = "100%";
+
+        Hooking.publish(endpoint, HookType.ON_LOAD, Miryth.config, element, Miryth.route);
+
+        if (slice) {
+            let left: HTMLElement = document.createElement("div");
+            left.id = `${id}-left`;
+            Hooking.publish(leftSlice, HookType.ON_LOAD, Miryth.config, left, Miryth.route);
+            Hooking.publish(leftSlice, HookType.ON_LOADED, Miryth.config, left, Miryth.route);
+
+            let center: HTMLElement = document.createElement("div");
+            center.id = `${id}-center`;
+            Hooking.publish(centerSlice, HookType.ON_LOAD, Miryth.config, center, Miryth.route);
+            Hooking.publish(centerSlice, HookType.ON_LOADED, Miryth.config, center, Miryth.route);
+
+            let right: HTMLElement = document.createElement("div");
+            right.id = `${id}-right`;
+            Hooking.publish(rightSlice, HookType.ON_LOAD, Miryth.config, right, Miryth.route);
+            Hooking.publish(rightSlice, HookType.ON_LOADED, Miryth.config, right, Miryth.route);
+        }
+
+        Hooking.publish(endpoint, HookType.ON_LOADED, Miryth.config, element, Miryth.route);
+
+        return element;
     }
 }
 
