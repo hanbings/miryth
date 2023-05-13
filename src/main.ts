@@ -29,20 +29,14 @@ class Miryth {
             // 从全局对象中获取配置文件
             // @ts-ignore
             let global = window.miryth as any;
-            let config: Config = new Config();
+            Miryth.config = new Config();
             let body: HTMLElement = document.body;
 
             for (let key in global) {
                 if (typeof global[key] == "object") {
                     for (let k in global[key]) {
-                        // 检查配置是否存在
-                        if (config[key] == undefined || config[key][k] == undefined) {
-                            console.warn(`[Miryth] ${key}.${k} is not defined.`);
-                            continue;
-                        }
-
                         // overwrite config
-                        config[key][k] = global[key][k];
+                        Miryth.config[key][k] = global[key][k];
                     }
                 }
             }
@@ -60,21 +54,21 @@ class Miryth {
             Miryth.route = router.parse(window.location.hash.split("#")[1] ?? "");
 
             // 获取头部导航栏
-            if (config.header.nav == undefined) {
+            if (Miryth.config.header.nav == undefined) {
                 new Request("/nav.json").get(
-                    xhr => config.header.nav = Array.from(JSON.parse(xhr.responseText))
+                    xhr => Miryth.config.header.nav = Array.from(JSON.parse(xhr.responseText))
                 );
             }
 
             // 获取索引文件
-            if (config.content.index == undefined) {
+            if (Miryth.config.content.index == undefined) {
                 new Request("/index.json").get(
-                    xhr => config.content.index = Array.from(JSON.parse(xhr.responseText))
+                    xhr => Miryth.config.content.index = Array.from(JSON.parse(xhr.responseText))
                 );
             }
 
             // 调用 api
-            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOAD, config, body, Miryth.route);
+            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOAD, Miryth.config, body, Miryth.route);
 
             // 渲染页面
             let header: HTMLDivElement = Miryth.element("miryth-header", true, HookEndpoint.HEADER, HookEndpoint.HEADER_LEFT, HookEndpoint.HEADER_CENTER, HookEndpoint.HEADER_RIGHT);
@@ -88,7 +82,7 @@ class Miryth {
             body.appendChild(footer);
 
             // 调用 api
-            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOADED, config, body, Miryth.route);
+            Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOADED, Miryth.config, body, Miryth.route);
         };
     }
 
@@ -117,6 +111,10 @@ class Miryth {
             right.id = `${id}-right`;
             Hooking.publish(rightSlice, HookType.ON_LOAD, Miryth.config, right, Miryth.route);
             Hooking.publish(rightSlice, HookType.ON_LOADED, Miryth.config, right, Miryth.route);
+
+            element.appendChild(left);
+            element.appendChild(center);
+            element.appendChild(right);
         }
 
         Hooking.publish(endpoint, HookType.ON_LOADED, Miryth.config, element, Miryth.route);

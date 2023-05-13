@@ -3,8 +3,9 @@ export class Header {
         public logo?: string,
         public title?: string,
         public nav?: Array<Nav>,
-        public search?: boolean
+        public search?: string
     ) {
+        this.title = "Miryth";
     }
 }
 
