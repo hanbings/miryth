@@ -13,7 +13,9 @@ export class Index {
         public type?: string,
         public source?: string,
         public banner?: string,
+        public thumbnail?: string,
         public title?: string,
+        public preview?: string,
         public create?: string,
         public author?: string,
         public tags?: string[]
