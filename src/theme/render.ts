@@ -81,6 +81,13 @@ export class Render {
                 container.style.backgroundColor = '#ffffff';
                 container.style.borderRadius = '12px';
                 container.style.marginTop = '30px';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+                container.style.justifyContent = 'center';
+                container.style.alignItems = 'center';
+                container.style.gap = '20px';
+                container.style.paddingTop = '80px';
+                container.style.paddingBottom = '80px';
 
                 // 阴影
                 container.style.boxShadow = '0 0 32px rgba(0, 0, 0, 0.5)';
@@ -90,37 +97,104 @@ export class Render {
                     container.style.marginTop = `-${(window.scrollY / document.documentElement.clientHeight) * 160}px`;
                 });
 
-                // 插入文章
-                config.content.index.forEach((post) => {
-                    let ele = document.createElement('div');
-                    ele.style.width = "78%";
-                    ele.style.height = "260px";
-                    ele.style.margin = "0 auto";
-                    ele.style.display = "flex";
-                    ele.style.justifyContent = "center";
-                    ele.style.alignItems = "center";
+                config.content.index.forEach(post => {
+                    let div = document.createElement('div');
+                    let picture = document.createElement('div');
 
-                    ele.innerHTML = `
-                        <div style="width: 32%; height: 150px; box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15)">
-                            <img src="${post.thumbnail}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;" alt="${post.title}">
-                        </div>
-                        <div style="width: 68%; height: 160px; margin-top: 24px; margin-left: 24px;">
-                            <div style="color: #3c4858; font-size: 24px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 8px; margin-bottom: 8px ;">${post.title}</div>
-                            <div style="color: #3c4858; font-size: 16px; font-weight: 400; margin-top: 8px; margin-bottom: 8px line-height: 24px;">${post.preview}</div>
-                            <div style="display: flex; flex-direction: row; gap: 8px; align-items: center; margin-top: 8px;">
-                                <div style="color: #718096; font-size: 16px; font-weight: 400; display: flex; align-items: center;">
-                                        <i class="material-icons" style="font-size: 20px; width: 24px;">date_range</i> ${post.create}
-                                    </div>
-                                <div>
-                                    <div style="color:#718096; font-size: 16px; font-weight: 400; display: flex; align-items: center;">
-                                        <i class="material-icons" style="font-size: 20px; width: 24px;">local_offer</i> ${post.tags}
-                                    </div>
-                                </div>
+                    let content = document.createElement('div');
+                    let title = document.createElement('div');
+                    let description = document.createElement('div');
+                    let other = document.createElement('div');
+
+                    let tags = document.createElement('div');
+                    let create = document.createElement('div');
+
+                    div.style.width = '80%';
+                    div.style.minHeight = '180px';
+                    div.style.display = 'flex';
+                    div.style.justifyContent = 'center';
+                    div.style.alignItems = 'center';
+                    div.style.gap = '20px';
+
+                    content.style.height = '100%';
+
+                    // 如果有缩略图
+                    if (post.thumbnail) {
+                        content.style.width = '65%';
+                        content.style.display = 'flex';
+                        content.style.flexDirection = 'column';
+                        content.style.justifyContent = 'center';
+
+                        picture.style.width = '30%';
+                        picture.style.height = '180px';
+                        picture.style.boxShadow = '0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15)';
+                        picture.style.borderRadius = '12px';
+                        picture.style.backgroundImage = `url(${post.thumbnail})`;
+                        picture.style.backgroundSize = 'cover';
+                        picture.style.backgroundPosition = 'center';
+                    } else {
+                        content.style.width = '100%';
+                        content.style.display = 'flex';
+                        content.style.flexDirection = 'column';
+                        content.style.justifyContent = 'center';
+                        content.style.alignItems = 'center';
+                    }
+
+                    if (post.title) {
+                        title.innerText = post.title;
+                        title.style.color = '#3c4858';
+                        title.style.fontSize = '24px';
+                        title.style.fontWeight = '700';
+                        title.style.overflow = 'hidden';
+                        title.style.textOverflow = 'ellipsis';
+                        title.style.whiteSpace = 'nowrap';
+                        title.style.marginTop = '8px';
+                        title.style.marginBottom = '8px';
+                    }
+
+                    if (post.preview) {
+                        description.innerText = post.preview;
+                        description.style.color = '#3c4858';
+                        description.style.fontSize = '16px';
+                        description.style.fontWeight = '400';
+                        description.style.lineHeight = '24px';
+                    }
+
+                    other.style.height = '36px';
+                    other.style.display = 'flex';
+                    other.style.alignItems = 'center';
+                    other.style.gap = '20px';
+
+                    if (post.create) {
+                        create.innerHTML = `
+                            <div style="color: #718096; font-size: 16px; font-weight: 400; display: flex; align-items: center;">
+                                <i class="material-icons" style="font-size: 20px; width: 24px;">date_range</i> ${post.create}
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
 
-                    container.appendChild(ele);
+                    if (post.tags) {
+                        tags.innerHTML = `
+                            <div style="color:#718096; font-size: 16px; font-weight: 400; display: flex; align-items: center;">
+                                <i class="material-icons" style="font-size: 20px; width: 24px;">local_offer</i> ${post.tags}
+                            </div>
+                        `;
+                    }
+
+                    // 右侧文字
+                    content.appendChild(title);
+                    content.appendChild(description);
+                    content.appendChild(other);
+
+                    // other 里面的其他内容
+                    other.appendChild(create);
+                    other.appendChild(tags);
+
+                    // 左侧图片
+                    div.appendChild(picture);
+                    div.appendChild(content);
+
+                    container.appendChild(div);
                 });
 
                 content.appendChild(container);
