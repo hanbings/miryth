@@ -27,16 +27,6 @@
   },
   {
     "type": "post",
-    "source": "/posts/使用Gradle发布项目到私有仓库.md",
-    "title": "使用 Gradle 发布项目到私有仓库",
-    "create": "2021-09-28 09:51:35",
-    "author": "hanbings",
-    "tags": [
-      "java"
-    ]
-  },
-  {
-    "type": "post",
     "source": "/posts/Java实现一个简单的EventBus.md",
     "banner": "https://picture.hanbings.com/2021/08/27/d855263eb4dd9.png",
     "thumbnail": "https://picture.hanbings.com/2021/08/27/d855263eb4dd9.png",

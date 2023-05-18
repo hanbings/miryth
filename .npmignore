@@ -1,7 +1,7 @@
 # src source file
 src/
 build/
-site/
+docs/
 
 # idea file
 .idea/
