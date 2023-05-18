@@ -145,7 +145,7 @@ export class ContentRender {
         container.style.minHeight = '60px';
         container.style.backgroundColor = '#ffffff';
         container.style.borderRadius = '12px';
-        container.style.marginTop = '-40px';
+        container.style.marginTop = '-80px';
         container.style.display = 'flex';
         container.style.flexDirection = 'row';
         container.style.justifyContent = 'center';
@@ -156,13 +156,8 @@ export class ContentRender {
         // 阴影
         container.style.boxShadow = '0 0 32px rgba(0, 0, 0, 0.5)';
 
-        // 监听滑动事件
-        window.addEventListener("scroll", function () {
-            container.style.marginTop = `-${Math.abs(((window.scrollY / document.documentElement.clientHeight) * 160) - 40)}px`;
-        });
-
         let markdown = document.createElement('div');
-        markdown.style.width = '80%';
+        markdown.style.width = '70%';
 
         fetch(index.source)
             .then(response => response.text())
@@ -173,6 +168,13 @@ export class ContentRender {
                 document.querySelectorAll('img').forEach(node => {
                     node.style.width = '100%';
                     node.style.height = 'auto';
+                });
+
+                document.querySelectorAll('code').forEach(node => {
+                    console.log(node);
+                    node.style.width = '100%';
+                    node.style.wordBreak = 'break-word';
+                    node.style.whiteSpace = 'pre-wrap';
                 });
             });
 
