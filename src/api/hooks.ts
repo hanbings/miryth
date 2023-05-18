@@ -4,6 +4,13 @@ import Route from "../router/route";
 export class Hooking {
     public static hooks: Map<HookEndpoint, Set<Hooking>> = new Map<HookEndpoint, Set<Hooking>>();
 
+    constructor(
+        public endpoint: HookEndpoint,
+        public type: HookType,
+        public callback: (config: Config, element: HTMLElement, route: Route) => void
+    ) {
+    }
+
     public static hook(
         endpoint: HookEndpoint,
         type: HookType,
@@ -25,13 +32,6 @@ export class Hooking {
                 hook.callback(config, element, route);
             }
         });
-    }
-
-    constructor(
-        public endpoint: HookEndpoint,
-        public type: HookType,
-        public callback: (config: Config, element: HTMLElement, route: Route) => void
-    ) {
     }
 }
 

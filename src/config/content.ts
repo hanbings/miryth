@@ -5,7 +5,8 @@ export class Content {
         public friends?: Friends,
         public about?: About,
         public notfound?: Notfound
-    ) {}
+    ) {
+    }
 }
 
 export class Index {
@@ -24,29 +25,21 @@ export class Index {
 }
 
 export class Notfound {
-    constructor(
-
-    ) {
+    constructor() {
     }
 }
 
 export class About {
-    constructor(
-
-    ) {
+    constructor() {
     }
 }
 
 export class Tags {
-    constructor(
-
-    ) {
+    constructor() {
     }
 }
 
 export class Friends {
-    constructor(
-
-    ) {
+    constructor() {
     }
 }
