@@ -54,9 +54,7 @@ class Miryth {
             Miryth.route = router.parse(window.location.hash.split("#")[1] ?? "");
 
             // 监听 hash 更改 更改后刷新页面
-            window.onhashchange = function () {
-                window.location.reload();
-            }
+            window.onhashchange = () => window.location.reload();
 
             // 获取头部导航栏
             if (Miryth.config.header.nav == undefined) {

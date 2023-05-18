@@ -170,9 +170,20 @@ export class ContentRender {
                     node.style.height = 'auto';
                 });
 
+                // pre 样式处理
+                document.querySelectorAll('pre').forEach(node => {
+                    node.style.backgroundColor = '#f6f8fa';
+                    node.style.borderRadius = '8px';
+                    node.style.padding = '12px';
+                    node.style.margin = '20px 0px';
+                    node.style.display = 'flex';
+                    node.style.flexDirection = 'column';
+                });
+
                 document.querySelectorAll('code').forEach(node => {
-                    console.log(node);
+                    node.style.order = '2';
                     node.style.width = '100%';
+                    node.style.color = '#1f2328';
                     node.style.wordBreak = 'break-word';
                     node.style.whiteSpace = 'pre-wrap';
                 });

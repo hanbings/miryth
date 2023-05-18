@@ -34,6 +34,7 @@ export class Render {
                 header.style.color = '#fff';
                 header.style.fontSize = '20px';
                 header.style.fontWeight = 'bold';
+                header.addEventListener('click', () => window.location.href = '#/');
 
                 header.innerText = config.header.title;
             });
@@ -121,6 +122,9 @@ export class Render {
                     moeIcp.style.color = '#666666';
                     moeIcp.style.fontSize = '14px';
                     moeIcp.innerText = config.footer.moeIcp;
+                    moeIcp.addEventListener('click', () => window.open('https://beian.miit.gov.cn/'));
+                    moeIcp.addEventListener('mouseover', () => moeIcp.style.color = '#30a9de');
+                    moeIcp.addEventListener('mouseout', () => moeIcp.style.color = '#666666');
                     container.appendChild(moeIcp);
                 }
 
@@ -129,6 +133,9 @@ export class Render {
                     cnIcp.style.color = '#666666';
                     cnIcp.style.fontSize = '14px';
                     cnIcp.innerText = config.footer.cnIcp;
+                    cnIcp.addEventListener('click', () => window.open('https://icp.gov.moe/'));
+                    cnIcp.addEventListener('mouseover', () => cnIcp.style.color = '#30a9de');
+                    cnIcp.addEventListener('mouseout', () => cnIcp.style.color = '#666666');
                     container.appendChild(cnIcp);
                 }
 
@@ -137,6 +144,9 @@ export class Render {
                 love.style.fontSize = '14px';
                 love.style.marginTop = '10px';
                 love.innerText = 'Powered by ✨ Miryth';
+                love.addEventListener('click', () => window.open('https://github.com/hanbings/miryth'));
+                love.addEventListener('mouseover', () => love.style.color = '#30a9de');
+                love.addEventListener('mouseout', () => love.style.color = '#666666');
                 container.appendChild(love);
 
                 footer.appendChild(container);
