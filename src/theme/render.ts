@@ -50,19 +50,49 @@ export class Render {
                 banner.style.height = `${height}%`;
                 banner.style.width = '100%';
 
-                // 插入图片
-                banner.innerHTML = `
-                    <div style="
-                        height: ${height}vh; width: 100%; overflow: hidden;
-                        display: flex; justify-content: center; align-items: center;
-                        color: white; font-size: 32px;
-                        background-image: url(${config.banner.background});
-                        background-size: cover;
-                        background-position: center;
-                        background-repeat: no-repeat;">
-                        ${config.banner.slogan}
-                    </div>
-                `;
+                if (route.paths.length == 0 || route.paths[0] == '' || route.paths[0] == '/') {
+                    // 插入图片
+                    banner.innerHTML = `
+                        <div style="
+                            height: ${height}vh; width: 100%; overflow: hidden;
+                            display: flex; justify-content: center; align-items: center;
+                            color: white; font-size: 32px;
+                            background-image: url(${config.banner.background});
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;">
+                            ${config.banner.slogan}
+                        </div>
+                    `;
+
+                    // 修改标签页标题
+                    document.title = `${config.header.title}`;
+                }
+
+                config.content.index.forEach((item) => {
+                    if (encodeURI(item.source) == route.path) {
+                        // 插入图片
+                        banner.innerHTML = `
+                            <div style="
+                                height: ${height}vh; width: 100%; overflow: hidden;
+                                display: flex; justify-content: center; align-items: center;
+                                color: white; font-size: 32px;
+                                background-image: url(${item.banner});
+                                background-size: cover;
+                                background-position: center;
+                                background-repeat: no-repeat;">
+                                ${item.title}
+                            </div>
+                        `;
+
+                        // 修改标签页标题
+                        document.title = `${item.title} - ${config.header.title}`;
+
+                        if (item.banner && item.banner == '') {
+                            banner.style.backgroundImage = `url(${config.banner.background})`;
+                        }
+                    }
+                });
             }
         )
     }

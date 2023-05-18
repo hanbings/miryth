@@ -163,11 +163,31 @@ export class ContentRender {
             .then(response => response.text())
             .then(text => {
                 markdown.innerHTML = marked(text);
+                console.log(marked(text));
 
                 // 图片自适应
                 document.querySelectorAll('img').forEach(node => {
                     node.style.width = '100%';
                     node.style.height = 'auto';
+                    node.style.borderRadius = '8px';
+                });
+
+                document.querySelectorAll('p').forEach(node => {
+                    node.style.color = '#2c3e50';
+                });
+
+                document.querySelectorAll('a').forEach(node => {
+                    node.style.color = '#0366d6';
+                    node.style.textDecoration = 'none';
+
+                    node.addEventListener('mouseover', () => {
+                        node.style.color = '#30a9de';
+                        node.style.textDecoration = 'underline';
+                    });
+                    node.addEventListener('mouseout', () => {
+                        node.style.color = '#0366d6';
+                        node.style.textDecoration = 'none';
+                    });
                 });
 
                 // pre 样式处理
