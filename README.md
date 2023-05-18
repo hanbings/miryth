@@ -10,13 +10,15 @@
 
 4. 获得 `miryth.js` 并在 html 页面中创建 body 元素后导入它
 
-   ![Miryth](https://i.328888.xyz/2023/05/08/i1a1U5.png)
+   ![Miryth](https://free.wzznft.com/i/2023/05/19/gyw86.png)
+   ![Miryth](https://free.wzznft.com/i/2023/05/19/j8xb4.png)
+   ![Miryth](https://free.wzznft.com/i/2023/05/19/h0pax.png)
 
 ## 😶‍🌫️ 试试！
 
 1. 创建 `index.html` 文件
 
-2. 导入编译得到的 `miryth.js`
+2. 导入编译得到的 `miryth.js` 并以覆盖赋值全局变量的方式更改配置项
 
    ```html
    <!DOCTYPE html>
@@ -26,15 +28,26 @@
        <meta charset="UTF-8">
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
        <title>Document</title>
    </head>
    
    <body></body>
+   <script>
+       window.miryth = {
+           header: {
+               title: "寒冰的猫窝"
+           },
+           footer: {
+               moeIcp: "萌ICP备 00000000号"
+           }
+       }
+   </script>
    <script src="./miryth.js"></script>
    
    </html>
    ```
-
+   
 3. 创建 `index.json` 作为目录索引
 
 ## 🍀 关于开源
