@@ -13,7 +13,8 @@ export class Nav {
     constructor(
         public icon?: string,
         public name?: string,
-        public href?: string
+        public href?: string,
+        public type?: string
     ) {
     }
 }

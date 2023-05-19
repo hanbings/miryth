@@ -70,6 +70,8 @@ class Miryth {
                 );
             }
 
+            if (Miryth.config.setting.debug) console.log(Miryth.config);
+
             // 调用 api
             Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOAD, Miryth.config, body, Miryth.route);
 

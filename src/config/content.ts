@@ -30,16 +30,40 @@ export class Notfound {
 }
 
 export class About {
-    constructor() {
+    constructor(
+        public banner: string,
+        public title: string,
+        public subtitle: string,
+        public avatar: string,
+    ) {
     }
 }
 
 export class Tags {
-    constructor() {
+    constructor(
+        public banner: string,
+        public title: string,
+        public subtitle: string,
+        public avatar: string,
+    ) {
     }
 }
 
 export class Friends {
-    constructor() {
+    constructor(
+        public banner: string,
+        public title: string,
+        public subtitle: string,
+    ) {
+    }
+}
+
+export class Friend {
+    constructor(
+        public avatar: string,
+        public name: string,
+        public link: string,
+        public about: string
+    ) {
     }
 }
