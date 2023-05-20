@@ -114,7 +114,7 @@ export class ContentRender {
             if (post.tags) {
                 tags.innerHTML = `
                       <div style="color:#718096; font-size: 16px; font-weight: 400; display: flex; align-items: center;">
-                            <i class="material-icons" style="font-size: 20px; width: 24px;">local_offer</i> ${post.tags}
+                            <i class="material-icons" style="font-size: 20px; width: 24px;">bookmark</i> ${post.tags}
                       </div>
                 `;
             }
@@ -166,17 +166,17 @@ export class ContentRender {
                 console.log(marked(text));
 
                 // 图片自适应
-                document.querySelectorAll('img').forEach(node => {
+                markdown.querySelectorAll('img').forEach(node => {
                     node.style.width = '100%';
                     node.style.height = 'auto';
                     node.style.borderRadius = '8px';
                 });
 
-                document.querySelectorAll('p').forEach(node => {
+                markdown.querySelectorAll('p').forEach(node => {
                     node.style.color = '#2c3e50';
                 });
 
-                document.querySelectorAll('a').forEach(node => {
+                markdown.querySelectorAll('a').forEach(node => {
                     node.style.color = '#0366d6';
                     node.style.textDecoration = 'none';
 
@@ -191,7 +191,7 @@ export class ContentRender {
                 });
 
                 // pre 样式处理
-                document.querySelectorAll('pre').forEach(node => {
+                markdown.querySelectorAll('pre').forEach(node => {
                     node.style.backgroundColor = '#f6f8fa';
                     node.style.borderRadius = '8px';
                     node.style.padding = '12px';
@@ -200,7 +200,7 @@ export class ContentRender {
                     node.style.flexDirection = 'column';
                 });
 
-                document.querySelectorAll('code').forEach(node => {
+                markdown.querySelectorAll('code').forEach(node => {
                     node.style.order = '2';
                     node.style.width = '100%';
                     node.style.color = '#1f2328';

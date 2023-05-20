@@ -19,6 +19,8 @@ export class Render {
                 header.style.height = '65px';
                 header.style.position = 'fixed';
                 header.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+                header.style.display = 'flex';
+                header.style.flexDirection = 'row';
             }
         )
 
@@ -34,9 +36,55 @@ export class Render {
                 header.style.color = '#fff';
                 header.style.fontSize = '20px';
                 header.style.fontWeight = 'bold';
-                header.addEventListener('click', () => window.location.href = '#/');
+                header.innerHTML = `<a href="#/">${config.header.title}</a>`;
 
-                header.innerText = config.header.title;
+                header.querySelectorAll('a').forEach(node => {
+                    node.style.color = '#fff';
+                    node.style.textDecoration = 'none';
+                });
+            });
+
+        Hooking.hook(
+            HookEndpoint.HEADER_CENTER,
+            HookType.ON_LOAD,
+            (config, header, route) => {
+                header.style.width = '36%';
+            });
+
+        Hooking.hook(
+            HookEndpoint.HEADER_RIGHT,
+            HookType.ON_LOAD,
+            (config, header, route) => {
+                header.style.width = '32%'
+                header.style.height = '100%';
+                header.style.display = 'flex';
+                header.style.justifyContent = 'center';
+                header.style.alignItems = 'center';
+
+                config.header.nav.forEach(item => {
+                    let tag = document.createElement('div');
+                    tag.style.display = 'flex';
+                    tag.style.justifyContent = 'center';
+                    tag.style.alignItems = 'center';
+                    tag.style.color = '#fff';
+                    tag.style.marginLeft = '8px';
+                    tag.style.marginRight = '8px';
+                    tag.style.fontSize = '14px';
+                    tag.innerHTML = `
+                        <a style="display:flex; justify-content: center; align-items: center;" href=#${item.href}>
+                            <i class="material-icons" style="font-size: 18px; width: 20px;">${item.icon}</i>${item.name}
+                        </a>
+                    `;
+
+                    header.appendChild(tag);
+                });
+
+                header.querySelectorAll('a').forEach(node => {
+                    node.style.color = '#fff';
+                    node.style.textDecoration = 'none';
+                    node.addEventListener('mouseover', () => node.style.color = '#30a9de');
+                    node.addEventListener('mouseout', () => node.style.color = '#fff');
+                });
             });
     }
 
@@ -67,6 +115,35 @@ export class Render {
 
                     // 修改标签页标题
                     document.title = `${config.header.title}`;
+
+                    return;
+                }
+
+                if (route.paths[0] == 'friends') {
+                    banner.innerHTML = `
+                        <div style="
+                            height: ${height}vh; width: 100%; overflow: hidden;
+                            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
+                            background-image: url(${config.content.friends.banner});
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;">
+                                <div style="color: white; font-size: 32px;">${config.content.friends.title}</div>
+                                <div style="
+                                color: white; font-size: 24px; 
+                                width: 60%; word-break: break-word; text-align: center;">
+                                    ${config.content.friends.subtitle}
+                                </div>
+                        </div>
+                    `;
+
+                    document.title = `${config.content.friends.title} - ${config.header.title}`;
+
+                    if (config.content.friends.banner && config.content.friends.banner == '') {
+                        banner.style.backgroundImage = `url(${config.banner.background})`;
+                    }
+
+                    return;
                 }
 
                 config.content.index.forEach((item) => {

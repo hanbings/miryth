@@ -25,7 +25,11 @@ export class Index {
 }
 
 export class Notfound {
-    constructor() {
+    constructor(
+        public banner: string,
+        public title: string,
+        public subtitle: string
+    ) {
     }
 }
 
@@ -54,6 +58,7 @@ export class Friends {
         public banner: string,
         public title: string,
         public subtitle: string,
+        public friends: Array<Friend>
     ) {
     }
 }
