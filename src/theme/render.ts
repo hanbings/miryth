@@ -189,12 +189,19 @@ export class Render {
 
                 if (route.paths.length == 0 || route.paths[0] == '' || route.paths[0] == '/') {
                     content.appendChild(ContentRender.home(config, content));
+                    return;
+                }
+
+                if (route.paths[0] == 'friends') {
+                    content.appendChild(ContentRender.friends(config, content));
+                    return;
                 }
 
                 config.content.index.forEach((item) => {
                     if (encodeURI(item.source) == route.path) {
                         content.appendChild(ContentRender.post(config, content, item));
                     }
+                    return;
                 });
             }
         );

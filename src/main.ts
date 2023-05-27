@@ -25,7 +25,7 @@ class Miryth {
         new Render();
 
         // 延迟到页面加载完成
-        window.onload = function () {
+        window.addEventListener("load", () => {
             // 从全局对象中获取配置文件
             // @ts-ignore
             let global = window.miryth as any;
@@ -88,7 +88,7 @@ class Miryth {
 
             // 调用 api
             Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOADED, Miryth.config, body, Miryth.route);
-        };
+        });
     }
 
     private static element(

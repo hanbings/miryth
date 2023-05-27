@@ -213,4 +213,25 @@ export class ContentRender {
 
         return container;
     }
+
+    public static friends(config: Config, content: HTMLElement): HTMLDivElement {
+        let container = document.createElement('div');
+        container.style.width = '90%';
+        container.style.maxWidth = '1100px';
+        container.style.minHeight = '60px';
+        container.style.backgroundColor = '#ffffff';
+        container.style.borderRadius = '12px';
+        container.style.marginTop = '-80px';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'row';
+        container.style.justifyContent = 'center';
+        container.style.alignItems = 'center';
+        container.style.paddingTop = '80px';
+        container.style.paddingBottom = '80px';
+
+        // 阴影
+        container.style.boxShadow = '0 0 32px rgba(0, 0, 0, 0.5)';
+
+        return container;
+    }
 }
