@@ -28,7 +28,8 @@ export class Notfound {
     constructor(
         public banner: string,
         public title: string,
-        public subtitle: string
+        public subtitle: string,
+        public source: string
     ) {
     }
 }
@@ -39,6 +40,7 @@ export class About {
         public title: string,
         public subtitle: string,
         public avatar: string,
+        public source: string,
     ) {
     }
 }
@@ -49,6 +51,7 @@ export class Tags {
         public title: string,
         public subtitle: string,
         public avatar: string,
+        public source: string
     ) {
     }
 }
@@ -58,7 +61,8 @@ export class Friends {
         public banner: string,
         public title: string,
         public subtitle: string,
-        public friends: Array<Friend>
+        public friends: Array<Friend>,
+        public source: string
     ) {
     }
 }

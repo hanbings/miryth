@@ -229,6 +229,75 @@ export class ContentRender {
         container.style.paddingTop = '80px';
         container.style.paddingBottom = '80px';
 
+        let box = document.createElement('div');
+        box.style.width = '70%';
+        box.style.display = 'flex';
+        box.style.flexDirection = 'row';
+        box.style.justifyContent = 'center';
+        box.style.alignItems = 'center';
+        box.style.flexWrap = 'wrap';
+        box.style.gap = '3%';
+
+        config.content.friends.friends.forEach(friend => {
+            let card = document.createElement('div');
+            card.style.width = '200px';
+            card.style.height = '80px';
+            card.style.backgroundColor = '#ffffff';
+            card.style.borderRadius = '8px';
+            card.style.marginTop = '20px';
+            card.style.borderRadius = '8px';
+            card.style.display = 'flex';
+            card.style.flexDirection = 'rows';
+            card.style.justifyContent = 'center';
+            card.style.gap = '20px';
+            card.style.alignItems = 'center';
+            card.style.paddingLeft = '20px';
+            card.style.paddingRight = '20px';
+            card.style.cursor = 'pointer';
+
+            // 阴翳
+            card.addEventListener('mouseover', () => card.style.backgroundColor = '#f6f8fa');
+            card.addEventListener('mouseout', () => card.style.backgroundColor = '#ffffff');
+
+            let avatar = document.createElement('img');
+            avatar.style.width = '50px';
+            avatar.style.height = '50px';
+            avatar.style.borderRadius = '50%';
+            avatar.src = friend.avatar;
+
+            let description = document.createElement('div');
+            description.style.width = '70%';
+            description.style.display = 'flex';
+            description.style.flexDirection = 'column';
+            description.style.justifyContent = 'center';
+            description.style.alignItems = 'flex-start';
+
+
+            let name = document.createElement('div');
+            name.style.color = '#3c4858';
+            name.style.fontSize = '16px';
+            name.style.fontWeight = '600';
+            name.innerHTML = friend.name;
+
+            name.addEventListener('mouseover', () => name.style.color = '#30a9de');
+            name.addEventListener('mouseout', () => name.style.color = '#3c4858');
+
+            let about = document.createElement('div');
+            about.style.color = '#2c3e50';
+            about.style.fontSize = '12px';
+            about.style.fontWeight = '400';
+            about.innerHTML = friend.about;
+
+            description.appendChild(name);
+            description.appendChild(about);
+
+            card.appendChild(avatar);
+            card.appendChild(description);
+            box.appendChild(card);
+        });
+
+        container.appendChild(box);
+
         // 阴影
         container.style.boxShadow = '0 0 32px rgba(0, 0, 0, 0.5)';
 
