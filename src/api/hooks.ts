@@ -41,7 +41,6 @@ export enum HookEndpoint {
     HEADER_LEFT,
     HEADER_CENTER,
     HEADER_RIGHT,
-    BANNER,
     CONTENT,
     CONTENT_LEFT,
     CONTENT_CENTER,
