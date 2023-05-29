@@ -2,8 +2,7 @@ export class Header {
     constructor(
         public logo?: string,
         public title?: string,
-        public nav?: Array<Nav>,
-        public search?: string
+        public nav?: Array<Nav>
     ) {
         this.title = "Miryth";
     }
