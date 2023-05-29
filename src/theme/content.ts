@@ -296,7 +296,62 @@ export class ContentRender {
             box.appendChild(card);
         });
 
+        // friend 的 markdown
+        let markdown = document.createElement('div');
+        markdown.style.width = '70%';
+
+        fetch(config.content.friends.source)
+            .then(response => response.text())
+            .then(text => {
+                markdown.innerHTML = marked(text);
+                console.log(marked(text));
+
+                // 图片自适应
+                markdown.querySelectorAll('img').forEach(node => {
+                    node.style.width = '100%';
+                    node.style.height = 'auto';
+                    node.style.borderRadius = '8px';
+                });
+
+                markdown.querySelectorAll('p').forEach(node => {
+                    node.style.color = '#2c3e50';
+                });
+
+                markdown.querySelectorAll('a').forEach(node => {
+                    node.style.color = '#0366d6';
+                    node.style.textDecoration = 'none';
+
+                    node.addEventListener('mouseover', () => {
+                        node.style.color = '#30a9de';
+                        node.style.textDecoration = 'underline';
+                    });
+                    node.addEventListener('mouseout', () => {
+                        node.style.color = '#0366d6';
+                        node.style.textDecoration = 'none';
+                    });
+                });
+
+                // pre 样式处理
+                markdown.querySelectorAll('pre').forEach(node => {
+                    node.style.backgroundColor = '#f6f8fa';
+                    node.style.borderRadius = '8px';
+                    node.style.padding = '12px';
+                    node.style.margin = '20px 0px';
+                    node.style.display = 'flex';
+                    node.style.flexDirection = 'column';
+                });
+
+                markdown.querySelectorAll('code').forEach(node => {
+                    node.style.order = '2';
+                    node.style.width = '100%';
+                    node.style.color = '#1f2328';
+                    node.style.wordBreak = 'break-word';
+                    node.style.whiteSpace = 'pre-wrap';
+                });
+            });
+
         container.appendChild(box);
+        container.appendChild(markdown);
 
         // 阴影
         container.style.boxShadow = '0 0 32px rgba(0, 0, 0, 0.5)';
