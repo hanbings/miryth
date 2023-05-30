@@ -59,14 +59,14 @@ class Miryth {
             // 获取头部导航栏
             if (Miryth.config.header.nav == undefined) new Request("/nav.json").get().then(data => Miryth.config.header.nav = Array.from(JSON.parse(data)));
             // 获取索引文件
-            if (Miryth.config.content.home.index == undefined) new Request("/index.json").get().then(data => Miryth.config.content.home.index = Array.from(JSON.parse(data)));
+            if (Miryth.config.content.posts.posts == undefined) new Request("/index.json").get().then(data => Miryth.config.content.posts.posts = Array.from(JSON.parse(data)));
             if (Miryth.config.setting.debug) console.log(Miryth.config);
 
             // 调用 api
             Hooking.publish(HookEndpoint.CONTAINER, HookType.ON_LOAD, Miryth.config, body, Miryth.route);
 
             // 渲染页面
-            let header: HTMLDivElement = Miryth.element("miryth-header", true, HookEndpoint.HEADER, HookEndpoint.HEADER_LEFT, HookEndpoint.HEADER_CENTER, HookEndpoint.HEADER_RIGHT);
+            let header: HTMLDivElement = Miryth.element("miryth-header.ts", true, HookEndpoint.HEADER, HookEndpoint.HEADER_LEFT, HookEndpoint.HEADER_CENTER, HookEndpoint.HEADER_RIGHT);
             let content: HTMLDivElement = Miryth.element("miryth-content", true, HookEndpoint.CONTENT, HookEndpoint.CONTENT_LEFT, HookEndpoint.CONTENT_CENTER, HookEndpoint.CONTENT_RIGHT);
             let footer: HTMLDivElement = Miryth.element("miryth-footer", true, HookEndpoint.FOOTER, HookEndpoint.FOOTER_LEFT, HookEndpoint.FOOTER_CENTER, HookEndpoint.FOOTER_RIGHT);
 

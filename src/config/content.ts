@@ -1,6 +1,7 @@
 export class Content {
     constructor(
         public home?: Home,
+        public posts?: Posts,
         public friends?: Friends,
         public about?: About,
         public notfound?: Notfound
@@ -10,19 +11,28 @@ export class Content {
 
 export class Home {
     constructor(
-        public index?: Array<Index>,
         public source?: string
     ) {
     }
 }
 
-export class Index {
+export class Posts {
+    constructor(
+        public posts?: Array<Post>,
+        public path?: string,
+        public source?: string,
+    ) {
+    }
+}
+
+export class Post {
     constructor(
         public path?: string,
         public source?: string,
         public title?: string,
         public create?: string,
-        public author?: string,
+        public update?: string,
+        public icon?: string
     ) {
     }
 }
@@ -32,7 +42,6 @@ export class Notfound {
         public path?: string,
         public source?: string
     ) {
-        this.path = "/404";
     }
 }
 
@@ -43,7 +52,6 @@ export class About {
         public avatar?: string,
         public source?: string,
     ) {
-        this.path = "/about";
     }
 }
 
@@ -53,7 +61,6 @@ export class Friends {
         public friends?: Array<Friend>,
         public source?: string
     ) {
-        this.path = "/friends";
     }
 }
 
