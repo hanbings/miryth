@@ -194,7 +194,12 @@ export class Render {
                             // 设置样式
                             row.style.display = 'flex';
                             row.style.alignItems = 'center';
-                            row.style.height = '20px';
+                            // 判断是否为移动端
+                            if (window.innerWidth <= 768) {
+                                row.style.minHeight = '20px';
+                            } else {
+                                row.style.height = '20px';
+                            }
                             row.style.marginTop = '10px';
                             row.style.marginLeft = '16px';
 
@@ -215,6 +220,8 @@ export class Render {
                             title.style.cursor = 'pointer';
                             title.style.color = '#383838';
                             title.style.fontSize = '16px';
+                            // 文字自动换行
+                            title.style.wordBreak = 'break-all';
                             title.innerText = post.title;
                             title.addEventListener('click', () => {
                                 window.location.href = `#${post.path}`;
@@ -222,9 +229,12 @@ export class Render {
                             });
 
                             // 下划线
-                            title.style.borderBottom = '1px solid #383838';
-                            title.addEventListener('mouseover', () => title.style.borderBottom = '2px solid #666666');
-                            title.addEventListener('mouseout', () => title.style.borderBottom = '1px solid #383838');
+                            // 判断是否为移动端
+                            if (window.innerWidth > 768) {
+                                title.style.borderBottom = '1px solid #383838';
+                                title.addEventListener('mouseover', () => title.style.borderBottom = '2px solid #666666');
+                                title.addEventListener('mouseout', () => title.style.borderBottom = '1px solid #383838');
+                            }
 
                             row.appendChild(icon);
                             row.appendChild(time);

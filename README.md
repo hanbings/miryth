@@ -10,9 +10,10 @@
 
 4. 获得 `miryth.js` 并在 html 页面中创建 body 元素后导入它
 
-   ![Miryth](https://free.wzznft.com/i/2023/05/19/gyw86.png)
-   ![Miryth](https://free.wzznft.com/i/2023/05/19/j8xb4.png)
-   ![Miryth](https://free.wzznft.com/i/2023/05/19/h0pax.png)
+   [![VWJkxy.png](https://i.imgloc.com/2023/06/01/VWJkxy.png)](https://imgloc.com/i/VWJkxy)
+   [![VWJWl3.png](https://i.imgloc.com/2023/06/01/VWJWl3.png)](https://imgloc.com/i/VWJWl3)
+   [![VWJ0L5.png](https://i.imgloc.com/2023/06/01/VWJ0L5.png)](https://imgloc.com/i/VWJ0L5)
+   [![VWJln8.png](https://i.imgloc.com/2023/06/01/VWJln8.png)](https://imgloc.com/i/VWJln8)
 
 ## 😶‍🌫️ 试试！
 
@@ -29,21 +30,52 @@
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-       <title>Document</title>
+       <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+       <title>寒冰的猫窝</title>
    </head>
    
    <body></body>
    <script>
        window.miryth = {
+           setting: {debug: true},
            header: {
-               title: "寒冰的猫窝"
+               title: "寒冰的猫窝",
+               nav: [
+                   {name: "首页", href: "/", icon: "home"},
+                   {name: "文章", href: "/posts", icon: "article"},
+                   {name: "关于", href: "/about", icon: "info"},
+                   {name: "友链", href: "/friends", icon: "link"}
+               ]
            },
-           footer: {
-               moeIcp: "萌ICP备 00000000号"
-           }
+           content: {
+               posts: {
+                   posts: [
+                       {
+                           path: "/posts/java-eventbus",
+                           source: "/posts/Java实现一个简单的EventBus.md",
+                           title: "Java 实现一个简单的 EventBus",
+                           create: "2023-05-29 12:00:00",
+                           icon: "fa fa-coffee"
+                       },
+                       {
+                           path: "/posts/what-is-the-totp",
+                           source: "/posts/为-Linux-服务器-SSH-添加-TOTP-动态验证码以及-Java-实现算法.md",
+                           title: "为 Linux 服务器 SSH 添加 TOTP 动态验证码以及 Java 实现算法",
+                           create: "2023-05-30 12:00:00",
+                           icon: "fa fa-coffee"
+                       }
+                   ],
+                   source: "/spec/posts.md"
+               },
+               home: {source: "/spec/home.md"},
+               notfound: {source: "/spec/notfound.md"},
+               about: {source: "/spec/about.md"},
+               friends: {source: "/spec/friends.md"}
+           },
+           footer: {moeIcp: "萌ICP备 20212512 号"}
        }
    </script>
-   <script src="./miryth.js"></script>
+   <script src="miryth.js"></script>
    
    </html>
    ```
