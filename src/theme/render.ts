@@ -1,6 +1,7 @@
 import {HookEndpoint, Hooking, HookType} from "../api/hooks";
 import Request from "../utils/request";
 import {marked} from "marked";
+import {Post} from "../config/content";
 
 export class Render {
     constructor() {
@@ -125,26 +126,107 @@ export class Render {
                 if (route.path == (config.content.posts.path ? config.content.posts.path : '/posts')) {
                     console.log(route.path)
 
+                    // 有序 map index [年份] -> [当年的文章列表]
+                    let index = new Map<number, Array<Post>>();
+
                     let markdown = document.createElement('div');
                     this.renderMarkdown(markdown, config.content.posts.source);
 
-                    let index = document.createElement('div');
-                    config.content.posts.posts.forEach(post => {
-                        let item = document.createElement('a');
-                        item.innerText = post.title;
-                        item.style.color = '#000';
-                        item.style.fontSize = '16px';
+                    let parts = document.createElement('div');
 
-                        item.addEventListener('click', () => {
-                            window.location.href = `#${post.path}`;
-                            window.location.reload();
+                    // 遍历文章 按年份分类 包括年月日
+                    // 时间格式 2023-05-30 12:00:00
+                    let years = new Map<number, Array<Post>>();
+                    config.content.posts.posts.forEach(post => {
+                        // 先按年分类
+                        let year = post.create.split('-')[0];
+                        if (!years.has(parseInt(year))) {
+                            years.set(parseInt(year), new Array<Post>());
+                        }
+                        years.get(parseInt(year)).push(post);
+                    });
+
+                    // 遍历年份 按年份排序
+                    Array.from(years.keys())
+                        .sort((a, b) => b - a)
+                        .forEach(year => {
+
                         });
 
-                        index.appendChild(item);
+                    // 按照年份从大到小排序
+                    let sortedYears = Array.from(years.keys()).sort((a, b) => b - a);
+                    sortedYears.forEach(year => {
+                        let posts = years.get(year);
+
+                        // 对每个年份对应的 Array<Post> 进行排序
+                        let sortedPosts = posts.sort((a, b) => {
+                            let timeA = new Date(a.create).getTime();
+                            let timeB = new Date(b.create).getTime();
+                            let distanceA = Math.abs(Date.now() - timeA);
+                            let distanceB = Math.abs(Date.now() - timeB);
+                            return distanceA - distanceB;
+                        });
+
+                        // 将排序后的 Array<Post> 再放回 Map 中
+                        index.set(year, sortedPosts);
+                    });
+
+                    // 遍历并生成
+                    index.forEach((posts, year) => {
+                        let part = document.createElement('div');
+                        let tags = document.createElement('div');
+                        let collection = document.createElement('div');
+
+                        // 年份字体
+                        tags.innerHTML = `<span style="font-size: 20px; font-weight: bold;">${year}</span>`;
+
+                        posts.forEach(post => {
+                            let row = document.createElement('div');
+
+                            // 图标
+                            let icon = document.createElement('div');
+                            // 时间
+                            let time = document.createElement('div');
+                            // 文章 title
+                            let title = document.createElement('div');
+
+                            // 设置样式
+                            row.style.display = 'flex';
+                            row.style.alignItems = 'center';
+                            row.style.marginTop = '10px';
+                            row.style.marginLeft = '10px';
+
+                            icon.style.width = '20px';
+                            icon.style.height = '20px';
+                            icon.innerHTML = `<i class="${post.icon}"></i>`;
+
+                            time.style.minWidth = '120px';
+                            time.style.textAlign = 'center';
+                            time.innerText = post.create.split(' ')[0];
+
+                            title.style.width = '100%';
+                            title.style.cursor = 'pointer';
+                            title.innerText = post.title;
+                            title.addEventListener('click', () => {
+                                window.location.href = `#${post.path}`;
+                                window.location.reload();
+                            });
+
+                            row.appendChild(icon);
+                            row.appendChild(time);
+                            row.appendChild(title);
+
+                            collection.appendChild(row);
+                        });
+
+                        part.appendChild(tags);
+                        part.appendChild(collection);
+
+                        parts.appendChild(part);
                     });
 
                     element.appendChild(markdown);
-                    element.appendChild(index);
+                    element.appendChild(parts);
                     return;
                 }
 

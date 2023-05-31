@@ -31,7 +31,6 @@ export class Post {
         public source?: string,
         public title?: string,
         public create?: string,
-        public update?: string,
         public icon?: string
     ) {
     }
