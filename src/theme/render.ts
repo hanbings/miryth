@@ -17,7 +17,6 @@ export class Render {
             (config, element, route) => {
                 element.style.width = '100%';
                 element.style.height = '100%';
-
                 element.style.display = 'flex';
                 element.style.alignItems = 'center';
                 element.style.justifyContent = 'center';
@@ -32,50 +31,59 @@ export class Render {
                 element.style.height = '100%';
                 element.style.marginTop = '80px';
 
-                let title = document.createElement('h1');
+                let isFound = false;
+                config.content.posts.posts.forEach(post => {
+                    if (route.path == post.path) isFound = true;
+                });
+
+                let title = document.createElement('a');
                 title.style.color = '#000';
-                title.style.fontSize = '32px';
+                title.style.fontSize = isFound ? '24px' : '32px';
                 title.style.fontWeight = 'bold';
                 title.style.margin = '0px';
                 title.style.padding = '0px';
                 title.style.lineHeight = '1.5';
                 title.style.wordBreak = 'break-word';
                 title.style.whiteSpace = 'pre-wrap';
+                title.style.textDecoration = 'none';
                 title.innerText = config.header.title;
+                title.href = '#';
 
                 let navs = document.createElement('div');
-                navs.style.display = 'flex';
+                navs.style.display = isFound ? 'none' : 'flex';
                 navs.style.alignItems = 'center';
                 navs.style.marginTop = '20px';
 
-                config.header.nav.forEach(item => {
-                    let nav = document.createElement('div');
-                    nav.style.marginRight = '10px';
-                    nav.style.color = '#383838';
-                    nav.style.textDecoration = 'none';
-                    nav.style.fontSize = '16px';
-                    nav.style.cursor = 'pointer';
-                    nav.innerText = item.name;
-
-                    // 鼠标移入
-                    nav.addEventListener('mouseover', () => {
-                        nav.style.color = '#30a9de';
-                        nav.style.textDecoration = 'underline';
-                    });
-
-                    // 鼠标移出
-                    nav.addEventListener('mouseout', () => {
+                if (!isFound) {
+                    config.header.nav.forEach(item => {
+                        let nav = document.createElement('div');
+                        nav.style.marginRight = '10px';
                         nav.style.color = '#383838';
                         nav.style.textDecoration = 'none';
-                    });
+                        nav.style.fontSize = '16px';
+                        nav.style.cursor = 'pointer';
+                        nav.innerText = item.name;
 
-                    nav.addEventListener('click', () => {
-                        window.location.href = `#${item.href}`;
-                        window.location.reload();
-                    });
+                        // 鼠标移入
+                        nav.addEventListener('mouseover', () => {
+                            nav.style.color = '#30a9de';
+                            nav.style.textDecoration = 'underline';
+                        });
 
-                    navs.appendChild(nav);
-                });
+                        // 鼠标移出
+                        nav.addEventListener('mouseout', () => {
+                            nav.style.color = '#383838';
+                            nav.style.textDecoration = 'none';
+                        });
+
+                        nav.addEventListener('click', () => {
+                            window.location.href = `#${item.href}`;
+                            window.location.reload();
+                        });
+
+                        navs.appendChild(nav);
+                    });
+                }
 
                 element.appendChild(title);
                 element.appendChild(navs);
@@ -146,13 +154,6 @@ export class Render {
                         years.get(parseInt(year)).push(post);
                     });
 
-                    // 遍历年份 按年份排序
-                    Array.from(years.keys())
-                        .sort((a, b) => b - a)
-                        .forEach(year => {
-
-                        });
-
                     // 按照年份从大到小排序
                     let sortedYears = Array.from(years.keys()).sort((a, b) => b - a);
                     sortedYears.forEach(year => {
@@ -193,24 +194,37 @@ export class Render {
                             // 设置样式
                             row.style.display = 'flex';
                             row.style.alignItems = 'center';
+                            row.style.height = '20px';
                             row.style.marginTop = '10px';
-                            row.style.marginLeft = '10px';
+                            row.style.marginLeft = '16px';
 
-                            icon.style.width = '20px';
-                            icon.style.height = '20px';
+                            icon.style.width = '16px';
+                            icon.style.height = '16px';
+                            icon.style.display = 'flex';
+                            icon.style.alignItems = 'center';
+                            icon.style.justifyContent = 'center';
+                            icon.style.color = '#666666';
                             icon.innerHTML = `<i class="${post.icon}"></i>`;
 
-                            time.style.minWidth = '120px';
+                            time.style.minWidth = '100px';
                             time.style.textAlign = 'center';
+                            time.style.color = '#666666';
+                            time.style.fontSize = '13px';
                             time.innerText = post.create.split(' ')[0];
 
-                            title.style.width = '100%';
                             title.style.cursor = 'pointer';
+                            title.style.color = '#383838';
+                            title.style.fontSize = '16px';
                             title.innerText = post.title;
                             title.addEventListener('click', () => {
                                 window.location.href = `#${post.path}`;
                                 window.location.reload();
                             });
+
+                            // 下划线
+                            title.style.borderBottom = '1px solid #383838';
+                            title.addEventListener('mouseover', () => title.style.borderBottom = '2px solid #666666');
+                            title.addEventListener('mouseout', () => title.style.borderBottom = '1px solid #383838');
 
                             row.appendChild(icon);
                             row.appendChild(time);
@@ -252,7 +266,7 @@ export class Render {
             (config, element, route) => {
                 element.style.width = '100%';
                 element.style.height = '100%';
-                element.style.minHeight = '100px';
+                element.style.minHeight = '130px';
 
                 element.style.display = 'flex';
                 element.style.flexDirection = 'row';
