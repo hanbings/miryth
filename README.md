@@ -75,7 +75,7 @@
            footer: {moeIcp: "萌ICP备 20212512 号"}
        }
    </script>
-   <script src="miryth.js"></script>
+   <script src="https://picture.hanbings.com/miryth.js"></script>
    
    </html>
    ```
