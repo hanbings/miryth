@@ -99,7 +99,6 @@ export class Render {
                 element.style.height = '100%';
 
                 element.style.display = 'flex';
-                element.style.alignItems = 'center';
                 element.style.justifyContent = 'center';
             });
 
@@ -245,7 +244,6 @@ export class Render {
 
                         part.appendChild(tags);
                         part.appendChild(collection);
-
                         parts.appendChild(part);
                     });
 
@@ -265,6 +263,76 @@ export class Render {
 
                 if (!isFound) {
                     this.renderMarkdown(element, config.content.notfound.source);
+                }
+            });
+
+        Hooking.hook(
+            HookEndpoint.CONTENT_RIGHT,
+            HookType.ON_LOADED,
+            (config, element, route) => {
+                // 文章
+                let isFound = false;
+                config.content.posts.posts.forEach(post => {
+                    if (route.path == post.path) {
+                        isFound = true;
+                    }
+                });
+
+                if (isFound && window.innerWidth >= 1024) {
+                    let tools = document.createElement('div');
+
+                    tools.style.width = '20%';
+                    tools.style.maxWidth = '360px';
+                    tools.style.height = '100px';
+
+                    //固定在父容器的右上角
+                    tools.style.position = 'fixed';
+                    tools.style.right = '0';
+
+                    let bar = document.createElement('div');
+                    bar.style.width = '70%';
+                    bar.style.height = '36px';
+                    bar.style.color = '#383838';
+                    bar.style.display = 'flex';
+                    bar.style.flexDirection = 'row';
+                    bar.style.justifyContent = 'flex-end';
+                    // 返回顶部和复制链接
+                    bar.innerHTML = `<i class="fa fa-arrow-up"></i>`;
+
+                    bar.addEventListener('click', () => window.scrollTo(0, 0));
+                    bar.addEventListener('mouseover', () => bar.style.color = '#666666');
+                    bar.addEventListener('mouseout', () => bar.style.color = '#383838');
+
+                    let catalog = document.createElement('div');
+                    catalog.style.width = '75%';
+                    catalog.style.display = 'flex';
+                    catalog.style.flexDirection = 'column';
+                    catalog.style.justifyContent = 'flex-start';
+
+                    // 循环等待三秒 一秒一次 等待网络请求完成加载目录
+                    setTimeout(() => {
+                        for (let deep = 1; deep <= 3; deep++) {
+                            document.querySelectorAll<HTMLHeadingElement>('h' + deep).forEach(element => {
+                                let div = document.createElement('div');
+                                div.innerHTML = `
+                                    <div style="margin-left: ${16 + (5 * deep)}px;" />
+                                    <span style="color: #3e3e3e;">#</span>
+                                    <span style="font-size: 13px; color: #383838;">${element.textContent}</span>
+                                `;
+
+                                div.addEventListener('click', () => window.scrollTo(0, element.offsetTop - 100));
+                                div.addEventListener('mouseover', () => div.style.textDecoration = 'underline');
+                                div.addEventListener('mouseout', () => div.style.textDecoration = 'none');
+
+                                catalog.appendChild(div);
+                            });
+                        }
+                    }, 3000);
+
+                    tools.appendChild(bar);
+                    tools.appendChild(catalog);
+
+                    element.appendChild(tools);
                 }
             });
     }
