@@ -383,6 +383,8 @@ export class Render {
             markdown.querySelectorAll('img').forEach(node => {
                 node.style.maxWidth = '630px';
                 node.style.height = 'auto';
+                
+                if (window.innerWidth < 1024) node.style.maxWidth = '100%';
             });
 
             markdown.querySelectorAll('p').forEach(node => {
