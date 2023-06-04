@@ -53,6 +53,7 @@ export class Render {
                 navs.style.display = isFound ? 'none' : 'flex';
                 navs.style.alignItems = 'center';
                 navs.style.marginTop = '20px';
+                navs.style.height = '26px';
 
                 if (!isFound) {
                     config.header.nav.forEach(item => {
@@ -64,18 +65,9 @@ export class Render {
                         nav.style.cursor = 'pointer';
                         nav.innerText = item.name;
 
-                        // 鼠标移入
-                        nav.addEventListener('mouseover', () => {
-                            nav.style.color = '#30a9de';
-                            nav.style.textDecoration = 'underline';
-                        });
-
-                        // 鼠标移出
-                        nav.addEventListener('mouseout', () => {
-                            nav.style.color = '#383838';
-                            nav.style.textDecoration = 'none';
-                        });
-
+                        nav.style.borderBottom = '0px solid #383838';
+                        nav.addEventListener('mouseover', () => nav.style.borderBottom = '2px solid #666666');
+                        nav.addEventListener('mouseout', () => nav.style.borderBottom = '0px solid #383838');
                         nav.addEventListener('click', () => {
                             window.location.href = `#${item.href}`;
                             window.location.reload();
@@ -398,17 +390,12 @@ export class Render {
             });
 
             markdown.querySelectorAll('a').forEach(node => {
-                node.style.color = '#0366d6';
+                node.style.color = '#383838';
                 node.style.textDecoration = 'none';
 
-                node.addEventListener('mouseover', () => {
-                    node.style.color = '#30a9de';
-                    node.style.textDecoration = 'underline';
-                });
-                node.addEventListener('mouseout', () => {
-                    node.style.color = '#0366d6';
-                    node.style.textDecoration = 'none';
-                });
+                node.style.borderBottom = '1px solid #383838';
+                node.addEventListener('mouseover', () => node.style.borderBottom = '2px solid #666666');
+                node.addEventListener('mouseout', () => node.style.borderBottom = '1px solid #383838');
             });
 
             // pre 样式处理
