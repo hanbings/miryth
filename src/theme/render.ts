@@ -14,7 +14,7 @@ export class Render {
         Hooking.hook(
             HookEndpoint.HEADER,
             HookType.ON_LOAD,
-            (config, element, route) => {
+            (config, element) => {
                 element.style.width = '100%';
                 element.style.height = '100%';
                 element.style.display = 'flex';
@@ -86,7 +86,7 @@ export class Render {
         Hooking.hook(
             HookEndpoint.CONTENT,
             HookType.ON_LOAD,
-            (config, element, route) => {
+            (config, element) => {
                 element.style.width = '100%';
                 element.style.height = '100%';
 
@@ -119,6 +119,56 @@ export class Render {
 
                 if (route.path == (config.content.friends.path ? config.content.friends.path : '/friends')) {
                     this.renderMarkdown(element, config.content.friends.source);
+
+                    let friends = document.createElement('div');
+                    friends.style.display = 'flex';
+                    friends.style.flexDirection = 'column';
+                    friends.style.gap = '10px';
+                    friends.style.marginTop = '20px';
+
+                    config.content.friends.friends.forEach(friend => {
+                        let item = document.createElement('div');
+                        item.style.display = 'flex';
+                        item.style.alignItems = 'center';
+
+                        let avatar = document.createElement('img');
+                        avatar.style.width = '42px';
+                        avatar.style.height = '42px';
+                        avatar.style.borderRadius = '50%';
+                        avatar.src = friend.avatar;
+
+                        let text = document.createElement('div');
+                        text.style.display = 'flex';
+                        text.style.flexDirection = 'column';
+                        text.style.marginLeft = '10px';
+
+                        let name = document.createElement('a');
+                        name.style.marginLeft = '10px';
+                        name.style.fontSize = '16px';
+                        name.style.color = '#000';
+                        name.style.textDecoration = 'none';
+                        name.innerText = friend.name;
+                        name.href = friend.link;
+
+                        name.addEventListener('mouseover', () => name.style.color = '#666');
+                        name.addEventListener('mouseout', () => name.style.color = '#000');
+
+                        let desc = document.createElement('div');
+                        desc.style.marginLeft = '10px';
+                        desc.style.fontSize = '14px';
+                        desc.style.color = '#666';
+                        desc.innerText = friend.about;
+
+                        text.appendChild(name);
+                        text.appendChild(desc);
+
+                        item.appendChild(avatar);
+                        item.appendChild(text);
+
+                        friends.appendChild(item);
+                    });
+
+                    element.appendChild(friends);
                     return;
                 }
 
@@ -333,7 +383,7 @@ export class Render {
         Hooking.hook(
             HookEndpoint.FOOTER,
             HookType.ON_LOAD,
-            (config, element, route) => {
+            (config, element) => {
                 element.style.width = '100%';
                 element.style.height = '100%';
                 element.style.minHeight = '130px';
@@ -347,7 +397,7 @@ export class Render {
         Hooking.hook(
             HookEndpoint.FOOTER_CENTER,
             HookType.ON_LOAD,
-            (config, element, route) => {
+            (config, element) => {
                 element.style.width = '88%';
                 element.style.maxWidth = '630px';
                 element.style.height = '100%';
@@ -383,7 +433,7 @@ export class Render {
             markdown.querySelectorAll('img').forEach(node => {
                 node.style.maxWidth = '630px';
                 node.style.height = 'auto';
-                
+
                 if (window.innerWidth < 1024) node.style.maxWidth = '100%';
             });
 
