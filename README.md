@@ -10,16 +10,9 @@
 
 4. 获得 `miryth.js` 并在 html 页面中创建 body 元素后导入它
 
-   [![VWJkxy.png](https://i.imgloc.com/2023/06/01/VWJkxy.png)](https://imgloc.com/i/VWJkxy)
-   [![VWJWl3.png](https://i.imgloc.com/2023/06/01/VWJWl3.png)](https://imgloc.com/i/VWJWl3)
-   [![VWJ0L5.png](https://i.imgloc.com/2023/06/01/VWJ0L5.png)](https://imgloc.com/i/VWJ0L5)
-   [![VWJln8.png](https://i.imgloc.com/2023/06/01/VWJln8.png)](https://imgloc.com/i/VWJln8)
+## 😶‍🌫️ 配置！
 
-## 😶‍🌫️ 试试！
-
-1. 创建 `index.html` 文件
-
-2. 导入编译得到的 `miryth.js` 并以覆盖赋值全局变量的方式更改配置项
+1. 创建一个 html 文件，并编写合适的 meta 信息，以及引入 miryth.js 文件：
 
    ```html
    <!DOCTYPE html>
@@ -35,52 +28,121 @@
    </head>
    
    <body></body>
-   <script>
-       window.miryth = {
-           setting: {debug: true},
-           header: {
-               title: "寒冰的猫窝",
-               nav: [
-                   {name: "首页", href: "/", icon: "home"},
-                   {name: "文章", href: "/posts", icon: "article"},
-                   {name: "关于", href: "/about", icon: "info"},
-                   {name: "友链", href: "/friends", icon: "link"}
-               ]
-           },
-           content: {
-               posts: {
-                   posts: [
-                       {
-                           path: "/posts/java-eventbus",
-                           source: "/posts/Java实现一个简单的EventBus.md",
-                           title: "Java 实现一个简单的 EventBus",
-                           create: "2023-05-29 12:00:00",
-                           icon: "fa fa-coffee"
-                       },
-                       {
-                           path: "/posts/what-is-the-totp",
-                           source: "/posts/为-Linux-服务器-SSH-添加-TOTP-动态验证码以及-Java-实现算法.md",
-                           title: "为 Linux 服务器 SSH 添加 TOTP 动态验证码以及 Java 实现算法",
-                           create: "2023-05-30 12:00:00",
-                           icon: "fa fa-coffee"
-                       }
-                   ],
-                   source: "/spec/posts.md"
-               },
-               home: {source: "/spec/home.md"},
-               notfound: {source: "/spec/notfound.md"},
-               about: {source: "/spec/about.md"},
-               friends: {source: "/spec/friends.md"}
-           },
-           footer: {moeIcp: "萌ICP备 20212512 号"}
-       }
-   </script>
    <script src="https://picture.hanbings.com/miryth.js"></script>
    
    </html>
    ```
-   
-3. 创建 `index.json` 作为目录索引
+
+   请注意！`<script src="./miryth.js"></script>` 必须在 `<body></body>` 声明之后声明，因为 miryth 默认会获取 dom 上的 body 元素作为整个站点的显示区域。
+
+2. 通过全局对象赋值配置 miryth：
+
+   在  `<body></body>` 后 `<script src="./miryth.js"></script>` 前再插入 `<script>` 并写入 `window.miryth` 对象
+
+   ```
+   <script>
+       window.miryth = {
+           footer: { moeIcp: "萌ICP备 20212512 号" }
+       }
+   </script>
+   ```
+
+   Miryth 页面的整体设计结构
+
+   ![Miryth.jpeg](https://i.imgloc.com/2023/06/06/VlfICX.jpeg)
+
+   具体可配置项如下：
+
+   *为了方便标记配置项将在配置后方使用 // 注释，但 json 并不支持此注释方式，请复制后自行去除*
+
+   *配置项如果留空将使用默认配置*
+
+   **调试设置**
+
+   开启调试模式将会在 Console 输出页面的 Route 以及 Config 信息
+
+   ```
+   setting: { debug: true }
+   ```
+
+   **页面头部**
+
+   ```json
+   header: {
+       logo: "", // LOGO url 暂不支持
+   	title: "寒冰的猫窝", // 博客的标题
+   	nav: [ // 博客顶部显示的页面小标签
+   		{ name: "首页", href: "/", icon: "home" }, // name 标签显示出来的文字
+   		{ name: "文章", href: "/posts", icon: "article" }, // href 点击后跳转的 url
+   		{ name: "关于", href: "/about", icon: "info" }, // 无论是 hash 模式还是 history 都应该在最前方加上 /
+   		{ name: "友链", href: "/friends", icon: "link" } // icon 图标 暂不支持
+   	]
+   }
+   ```
+
+   **页面内容**
+
+   ```json
+   content: {
+     "path": "/posts", // 文章页面的 url
+     "posts": { // 文章页面的配置
+       "posts": [ // 这里是文章的索引 文章显示的顺序将根据 create 时间排序
+         {
+           "path": "/posts/java-eventbus", // path 文章的 url 路径
+           "source": "/posts/Java实现一个简单的EventBus.md", // source 文章的原始位置
+           "title": "Java 实现一个简单的 EventBus", // title 文章标题
+           "create": "2023-05-29 12:00:00", // create 文章创建时间 格式为 yyyy-mm-dd hh-mm-ss
+           "icon": "fa fa-coffee" // icon 显示在标题前的图标 使用 https://fontawesome.dashgame.com/ FA 图标库
+         },
+         {
+           "path": "/posts/what-is-the-totp",
+           "source": "/posts/为-Linux-服务器-SSH-添加-TOTP-动态验证码以及-Java-实现算法.md",
+           "title": "为 Linux 服务器 SSH 添加 TOTP 动态验证码以及 Java 实现算法",
+           "create": "2023-05-30 12:00:00",
+           "icon": "fa fa-coffee"
+         }
+       ],
+       "source": "/spec/posts.md" // 显示在索引前的文章
+     },
+     "home": { // 主页的配置
+       "source": "/spec/home.md" // 显示在主页的文章
+     },
+     "notfound": { // 404 页面的配置
+       "path": "/notfound",
+       "source": "/spec/notfound.md"
+     },
+     "about": { // 关于页的配置
+       "path": "/about",
+       "source": "/spec/about.md"
+     },
+     "friends": { // 友联页的配置
+       "path": "/friends",
+       "source": "/spec/friends.md",
+       "friends": [
+         {
+           "avatar": "https://blog.hanbings.io/img/avatar.jpeg", // avatar 头像
+           "name": "寒冰是喵喵", // name 名字
+           "link": "https://blog.hanbings.io/", // link 链接
+           "about": "🍀 这里寒冰，很高兴认识你！" // about 简介
+         }
+       ]
+     }
+   }
+   ```
+
+   **页面尾部**
+
+   ```json
+   footer: {
+       html: "", // html 在页面尾部插入一段 html
+       moeIcp: "萌ICP备 20212512 号", // moeIcp 萌备信息
+       cnIcp: "" // cnIcp 备案信息
+   }
+   ```
+
+3. 发布页面
+
+   将文件上传至 Github repo 中，并[打开 Github Pages](https://docs.github.com/zh/pages/getting-started-with-github-pages) 即可部署
 
 ## 🍀 关于开源
 
