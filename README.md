@@ -67,7 +67,7 @@
 
    **页面头部**
 
-   ```json
+   ```js
    header: {
        logo: "", // LOGO url 暂不支持
    	title: "寒冰的猫窝", // 博客的标题
@@ -82,7 +82,7 @@
 
    **页面内容**
 
-   ```json
+   ```js
    content: {
      "path": "/posts", // 文章页面的 url
      "posts": { // 文章页面的配置
@@ -132,7 +132,7 @@
 
    **页面尾部**
 
-   ```json
+   ```js
    footer: {
        html: "", // html 在页面尾部插入一段 html
        moeIcp: "萌ICP备 20212512 号", // moeIcp 萌备信息
