@@ -407,8 +407,8 @@ export class Render {
                 // 渲染 markdown
                 element.innerHTML = `
                     <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <a>${config.footer.cnIcp}</a>
-                        <a>${config.footer.moeIcp}</a>
+                        <a href="https://beian.miit.gov.cn/">${config.footer.cnIcp}</a>
+                        <a href="https://icp.gov.moe/">${config.footer.moeIcp}</a>
                         <a>${config.footer.html}</a>
                         Powered by ⭐ Miryth
                     </div> 
